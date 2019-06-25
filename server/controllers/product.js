@@ -45,7 +45,7 @@ class ControllerProduct {
   }
 
   static update(req, res, next) {
-    Product.findByIdAndUpdate(req.params.id, req.body)
+    Product.findByIdAndUpdate(req.params.id, req.body, {new : true})
       .then(updated => {
         res.status(200).json(updated);
       })
