@@ -3,15 +3,23 @@ module.exports = function(err, req, res, next) {
     // handle error dari controller
     res.status(err.code).json({ message: err.message });
   } else if (err.name === "ValidationError") {
-    // let message = err.message.split(": ")[2];
-    let message = err.message.replace("User validation failed: ", "");
-    if ("email: ".indexOf(message)) {
-      message = message.replace("email: ", "");
+    let { message } = err;
+    let arr = [
+      "User validation failed: ",
+      "email: ",
+      "password: ",
+      "Product validation failed: ",
+      "description: ",
+      "price: ",
+      "stock: ",
+      "picture: ",
+      "name: "
+    ];
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].indexOf(message)) {
+        message = message.replace(arr[i], "");
+      }
     }
-    if ("password: ".indexOf(message)) {
-      message = message.replace("password: ", "");
-    }
-
     res.status(400).json({ message: message });
   } else if (err.response.status) {
     // handle error axios

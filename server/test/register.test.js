@@ -87,6 +87,7 @@ POST ${path}
             expect(res.body).to.have.property("name");
             expect(res.body).to.have.property("email");
             expect(res.body).to.have.property("password");
+            expect(res.body.password).to.not.equal(user_correct.password);
             expect(res.body).to.have.property("picture");
             done();
           })

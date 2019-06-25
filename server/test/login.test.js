@@ -44,31 +44,36 @@ const user_no_email = {
 const user_no_password = {
   email: correctEmail
 };
-const user_no_email_password = {}
+const user_no_email_password = {};
 
-describe.only(`
+describe(`
 POST ${path}
 `, () => {
-  before(() => {
-    let user = user_correct;
-    user.name = "novi";
-    createMockUser(user);
+  before(done => {
     console.log(
       "\n==================================\nTEST LOGIN START\n==================================\n"
     );
+    done();
   });
 
-  after(() => {
+  after(done => {
     deleteAllUser();
     console.log(
       "\n====================================================================\n"
     );
+    done();
   });
 
   describe(`
 1. CORRECT INPUT`, () => {
     describe(`
 1.A. ALL INPUT IS CORRECT`, () => {
+      before(done => {
+        let user = user_correct;
+        user.name = "novi";
+        createMockUser(user);
+        done();
+      });
       it(`
     Request from client with req.body :
       ${JSON.stringify(user_correct)}
@@ -92,6 +97,7 @@ POST ${path}
             expect(res.body.user).to.have.property("email");
             expect(res.body.user).to.have.property("name");
             expect(res.body.user).to.have.property("picture");
+
             done();
           })
           .catch(err => {
