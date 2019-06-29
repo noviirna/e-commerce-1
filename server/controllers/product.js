@@ -2,11 +2,12 @@ const Product = require(`../models/product`);
 
 class ControllerProduct {
   static create(req, res, next) {
-    if(req.body.tags == null){
-      req.body.tags = []
+    if (req.body.tags == null) {
+      req.body.tags = [];
     }
-    if(req.body.likedby == null){
-      req.body.likedby = []
+    
+    if (req.body.likedby == null) {
+      req.body.likedby = [];
     }
 
     Product.create(req.body)
@@ -45,7 +46,10 @@ class ControllerProduct {
   }
 
   static update(req, res, next) {
-    Product.findByIdAndUpdate(req.params.id, req.body, {new : true})
+    Product.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators : true
+    })
       .then(updated => {
         res.status(200).json(updated);
       })

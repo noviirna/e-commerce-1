@@ -1,12 +1,29 @@
 const jwt = require(`jsonwebtoken`);
-// const Model = require(`../models/cart`);
+const User = require(`../models/user`);
+const Product = require(`../models/product`);
 
 module.exports = {
   authentication: function(req, res, next) {
     try {
       let decoded = jwt.verify(req.headers.token, process.env.SECRET_JWT);
       req.user = decoded;
-      next();
+      User.findOne({ email: req.user.email })
+        .then(found => {
+          if (!found) {
+            next({
+              code: 401,
+              message: `Invalid access token, you have to login first`
+            });
+          } else {
+            next();
+          }
+        })
+        .catch(err => {
+          next({
+            code: 401,
+            message: `Invalid access token, you have to login first`
+          });
+        });
     } catch (err) {
       next({
         code: 401,
@@ -23,5 +40,24 @@ module.exports = {
         message: `You have no access to do this`
       });
     }
+  },
+  productAuth: function(req, res, next) {
+    Product.findById(req.params.id)
+      .then(found => {
+        if (found) {
+          next();
+        } else {
+          next({
+            code: 404,
+            message: `Product didnt exist`
+          });
+        }
+      })
+      .catch(err => {
+        next({
+          code: 404,
+          message: `Product didnt exist`
+        });
+      });
   }
 };

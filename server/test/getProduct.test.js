@@ -31,7 +31,6 @@ var mock_product = {
   price: 100000,
   description: "product description",
   tags: [],
-  likedby: []
 };
 
 describe(`
@@ -148,7 +147,6 @@ AUTHENTICATION TEST
           expect(res.body[0]).to.have.property("price");
           expect(res.body[0]).to.have.property("description");
           expect(res.body[0]).to.have.property("tags");
-          expect(res.body[0]).to.have.property("likedby");
 
           expect(res.body[0].name).to.be.an("string");
           expect(res.body[0].picture).to.be.an("string");
@@ -156,7 +154,6 @@ AUTHENTICATION TEST
           expect(res.body[0].price).to.be.an("number");
           expect(res.body[0].description).to.be.an("string");
           expect(res.body[0].tags).to.be.an("array");
-          expect(res.body[0].likedby).to.be.an("array");
 
           expect(res.body[0].name).to.equal(mock_product.name);
           expect(res.body[0].picture).to.equal(mock_product.picture);
@@ -164,7 +161,6 @@ AUTHENTICATION TEST
           expect(res.body[0].price).to.equal(mock_product.price);
           expect(res.body[0].description).to.equal(mock_product.description);
           expect(res.body[0].tags).to.deep.equal(mock_product.tags);
-          expect(res.body[0].likedby).to.deep.equal(mock_product.likedby);
 
           done();
         })

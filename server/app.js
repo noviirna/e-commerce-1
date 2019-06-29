@@ -17,9 +17,7 @@ if (process.env.NODE_ENV !== "prod") {
   app.use(morgan("dev"));
 }
 
-console.log("\n");
 console.log("ON ENVIRONMENT :", process.env.NODE_ENV);
-console.log("\n");
 
 app.use(cors());
 app.use(express.json({ limit: "2mb" }));

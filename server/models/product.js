@@ -9,27 +9,77 @@ const ProductSchema = new Schema(
     },
     picture: {
       type: String,
-      required: [true, "Picture is required"]
+      required: [true, "Picture is required"],
     },
     stock: {
       type: Number,
-      required: [true, "Stock have to be defined"]
+      required: [true, "Stock have to be defined"],
+      min: [0, 'Stock must be equal or greater by 0'],
     },
     price: {
       type: Number,
-      required: [true, "Price have to be defined"]
+      required: [true, "Price have to be defined"],
+      min: [0, 'Price must be equal or greater by 0'],
     },
     description: {
       type: String,
       required: [true, "Description is required"]
     },
-    tags: { type: [String] },
-    likedby: { type: [{ type: Schema.Types.ObjectId, ref: "User" }] }
+    tags: { type: [String] }
   },
   { timestamps: true }
 );
 
 const Product = mongoose.model("Product", ProductSchema);
+
+Product.schema.path("stock").validate(function(value) {
+  if (typeof value !== "number") {
+    return false;
+  } else {
+    return true;
+  }
+}, "Invalid input");
+
+Product.schema.path("name").validate(function(value) {
+  if (typeof value !== "string") {
+    return false;
+  } else {
+    return true;
+  }
+}, "Invalid input");
+
+Product.schema.path("picture").validate(function(value) {
+  if (typeof value !== "string") {
+    return false;
+  } else {
+    return true;
+  }
+}, "Invalid input");
+
+Product.schema.path("description").validate(function(value) {
+  if (typeof value !== "string") {
+    return false;
+  } else {
+    return true;
+  }
+}, "Invalid input");
+
+Product.schema.path("price").validate(function(value) {
+  if (typeof value !== "number") {
+    return false;
+  } else {
+    return true;
+  }
+}, "Invalid input");
+
+Product.schema.path("tags").validate(function(value) {
+  if (typeof value !== "object") {
+    return false;
+  } else {
+    return true;
+  }
+}, "Invalid input");
+
 module.exports = Product;
 
 /**

@@ -35,8 +35,7 @@ var mock_product = {
   stock: 20,
   price: 100000,
   description: "product description",
-  tags: [],
-  likedby: []
+  tags: []
 };
 
 var mock_product_1 = {
@@ -45,9 +44,9 @@ var mock_product_1 = {
   stock: 20,
   price: 1000000,
   description: "earrings description",
-  tags: ["new"],
-  likedby: []
+  tags: ["new"]
 };
+
 
 describe(`
 POST ${path}
@@ -96,9 +95,7 @@ ACCESS AS ADMIN
             .set("token", admin.token)
             .then(res => {
               expect(res).to.have.status(201);
-
               expect(res.body).to.be.an("object");
-
               expect(res.body).to.have.property("_id");
               expect(res.body).to.have.property("name");
               expect(res.body).to.have.property("picture");
@@ -106,7 +103,6 @@ ACCESS AS ADMIN
               expect(res.body).to.have.property("price");
               expect(res.body).to.have.property("tags");
               expect(res.body).to.have.property("description");
-              expect(res.body).to.have.property("likedby");
 
               done();
             })
@@ -207,9 +203,7 @@ ACCESS AS REGULAR USER`, () => {
             expect(res.body.stock).to.equal(mock_product_1.stock);
             expect(res.body.price).to.equal(mock_product_1.price);
             expect(res.body.description).to.equal(mock_product_1.description);
-            expect(res.body.likedby)
-              .to.be.an("array")
-              .with.lengthOf(0);
+
             expect(res.body.tags)
               .to.be.an("array")
               .with.lengthOf(1);
@@ -262,8 +256,7 @@ ACCESS AS REGULAR USER`, () => {
             stock: 20,
             price: 1000000,
             description: "earrings description",
-            tags: ["new"],
-            likedby: []
+            tags: ["new"]
           })
           .set("token", admin.token)
           .then(res => {
@@ -279,7 +272,7 @@ ACCESS AS REGULAR USER`, () => {
           });
       });
       it(`
-      INPUT IS MISSING "tags" and "likedby" (NOT A REQUIRED KEY)
+      INPUT IS MISSING "tags"  (NOT A REQUIRED KEY)
         `, done => {
         //
         chai
@@ -315,9 +308,6 @@ ACCESS AS REGULAR USER`, () => {
             expect(res.body.tags)
               .to.be.an("array")
               .with.lengthOf(0);
-            expect(res.body.likedby)
-              .to.be.an("array")
-              .with.lengthOf(0);
             done();
           })
           .catch(err => {
@@ -341,8 +331,7 @@ ACCESS AS REGULAR USER`, () => {
             stock: { stock: 20 },
             price: "1000000",
             description: { descrption: "earrings description" },
-            tags: "new",
-            likedby: { user: [] }
+            tags: "new"
           })
           .set("token", admin.token)
           .then(res => {
@@ -350,6 +339,35 @@ ACCESS AS REGULAR USER`, () => {
             expect(res.body).to.be.an("object");
             expect(res.body).to.have.property("message");
             expect(res.body.message).to.be.an("string");
+            done();
+          })
+          .catch(err => {
+            console.log(JSON.stringify(err, undefined, 2));
+          });
+      });
+
+      it(`
+      MIN VALUE VALIDATION
+        `, done => {
+        //
+        chai
+          .request(app)
+          .post(path)
+          .send({
+            name: 90,
+            picture: "picture of earrings",
+            stock: -20,
+            price: -1000000,
+            description: "earrings description",
+            tags: []
+          })
+          .set("token", admin.token)
+          .then(res => {
+            expect(res).to.have.status(400);
+            expect(res.body).to.be.an("object");
+            expect(res.body).to.have.property("message");
+            expect(res.body.message).to.be.an("string");
+            expect(res.body.message).to.equal("Stock must be equal or greater by 0, Price must be equal or greater by 0");
             done();
           })
           .catch(err => {
@@ -403,8 +421,7 @@ ACCESS AS REGULAR USER`, () => {
             stock: 20,
             price: 1000000,
             description: "null description",
-            tags: null,
-            likedby: null
+            tags: null
           })
           .set("token", admin.token)
           .then(res => {
@@ -417,5 +434,7 @@ ACCESS AS REGULAR USER`, () => {
           });
       });
     });
+
+
   });
 });

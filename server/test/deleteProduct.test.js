@@ -36,7 +36,6 @@ var mock_product = {
   price: 100000,
   description: "product description",
   tags: [],
-  likedby: []
 };
 
 describe(`
@@ -83,7 +82,7 @@ DELETE PRODUCT AS ADMIN`, () => {
           .catch(err => {});
       });
       it(`
-          WITH [ INVALID ] TOKEN - SHOW ERROR
+          DELETE PRODUCT WITH [ INVALID ] TOKEN - SHOW ERROR 401
         `, done => {
         //
         chai
@@ -106,7 +105,7 @@ DELETE PRODUCT AS ADMIN`, () => {
       });
 
       it(`
-          WITH [ VALID ] TOKEN
+          DELETE PRODUCT WITH [ VALID ] TOKEN AND EXISTING DATA OUTPUT => STATUS 200 & REQ.BODY {DELETED DATA}
         `, done => {
         //
         chai
@@ -127,7 +126,6 @@ DELETE PRODUCT AS ADMIN`, () => {
             expect(res.body.price).to.be.an("number");
             expect(res.body.description).to.be.an("string");
             expect(res.body.tags).to.deep.equal([]);
-            expect(res.body.likedby).to.deep.equal([]);
             expect(res.body.name).to.equal("product name");
             expect(res.body.picture).to.equal("product picture");
             expect(res.body.stock).to.equal(20);
@@ -136,10 +134,29 @@ DELETE PRODUCT AS ADMIN`, () => {
             expect(res.body.tags)
               .to.be.an("array")
               .with.lengthOf(0);
-            expect(res.body.likedby)
-              .to.be.an("array")
-              .with.lengthOf(0);
+            done();
+          })
+          .catch(err => {
+            console.log(JSON.stringify(err, undefined, 2));
+          });
+      });
 
+
+      it(`
+          DELETE PRODUCT WITH [ VALID ] TOKEN AND NON EXISTING DATA OUTPUT - SHOW ERROR 404
+        `, done => {
+        //
+        chai
+          .request(app)
+          .delete(path + "/" + mock_product._id)
+          .set("token", admin.token)
+          .then(res => {
+            expect(res).to.have.status(404)
+            expect(res.body).to.have.property("message");
+            expect(res.body.message).to.be.an("string");
+            expect(res.body.message).to.equal(
+              "Product didnt exist"
+            );
             done();
           })
           .catch(err => {
@@ -181,7 +198,7 @@ DELETE PRODUCT AS REGULAR USER`, () => {
           .catch(err => {});
       });
       it(`
-          WITH [ INVALID ] TOKEN - SHOW ERROR
+          WITH [ INVALID ] TOKEN - SHOW ERROR 401
         `, done => {
         //
         chai
@@ -204,7 +221,7 @@ DELETE PRODUCT AS REGULAR USER`, () => {
       });
 
       it(`
-          WITH [ VALID ] TOKEN - SHOW ERROR
+          WITH [ VALID ] TOKEN - SHOW ERROR 401
         `, done => {
         //
         chai
