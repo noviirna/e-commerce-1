@@ -4,6 +4,7 @@ import Home from "@/views/Home.vue";
 import Products from "@/views/Products.vue";
 import Transactions from "@/views/Transactions.vue";
 import TransactionDetail from "@/views/Transactions.vue";
+import ProductDetail from "@/components/ProductDetail.vue";
 
 Vue.use(Router);
 
@@ -19,15 +20,18 @@ export default new Router({
     {
       path: "/products",
       name: "product",
-      component: Products
+      component: Products,
+      children: [
+        {
+          path: ":id",
+          component: ProductDetail
+        }
+      ]
     },
     {
       path: "/faq",
       name: "faq",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ "./views/FAQ.vue")
+      component: () => import(/* webpackChunkName: "faq" */ "./views/FAQ.vue")
     },
     {
       path: "/transactions",
@@ -35,7 +39,7 @@ export default new Router({
       component: Transactions,
       children: [
         {
-          path: "id",
+          path: ":id",
           component: TransactionDetail
         }
       ]

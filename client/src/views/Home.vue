@@ -5,9 +5,13 @@
         <h1 class="display-3">Lux Jewelries</h1>
         <p class="lead">Get your custom jewelries here</p>
         <hr class="my-4" />
-        <p>Log in if you already join with us or Register if you are new to us!</p>
+        <p>
+          Log in if you already join with us or Register if you are new to us!
+        </p>
         <p class="lead">
-          <button class="btn btn-primary btn-lg" @click="to_productspage">Shop Now</button>
+          <button class="btn btn-primary btn-lg" @click="to_productspage">
+            Shop Now
+          </button>
         </p>
       </div>
     </div>
