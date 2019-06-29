@@ -63,6 +63,7 @@ var cart_2 = {
 };
 
 var cart_validation_required = {
+  buyer: "",
   status: "checkout",
   products: [],
   products_amount: 1,
@@ -110,7 +111,7 @@ var cart_validation_minValue = {
   transfer_receipt: ""
 };
 
-describe.only(`
+describe(`
 PATCH ${path}
 `, function() {
   before(() => {
@@ -382,223 +383,96 @@ PATCH ${path}
       });
     });
 
-    //   describe(`
-    // 2. FALSE INPUT`, () => {
-    //     describe(`
-    //   2.A. REQUIRED VALIDATION IN MODEL
-    //     `, () => {
-    //       it(`
-    //       THE INPUT IS AN EMPTY OBJECT - SHOW ERROR
-    //         `, done => {
-    //         //
-    //         chai
-    //           .request(app)
-    //           .post(path)
-    //           .send({})
-    //           .set("token", admin.token)
-    //           .then(res => {
-    //             expect(res).to.have.status(400);
-    //             expect(res.body).to.be.an("object");
-    //             expect(res.body).to.have.property("message");
-    //             expect(res.body.message).to.be.an("string");
-    //             expect(res.body.message).equal(
-    //               "Description is required, Price have to be defined, Stock have to be defined, Picture is required, Name is required"
-    //             );
-    //             done();
-    //           })
-    //           .catch(err => {
-    //             console.log(JSON.stringify(err, undefined, 2));
-    //           });
-    //       });
-    //       it(`
-    //       INPUT IS MISSING "name" (REQUIRED KEY) - SHOW ERROR
-    //         `, done => {
-    //         //
-    //         chai
-    //           .request(app)
-    //           .post(path)
-    //           .send({
-    //             picture: "picture of earrings",
-    //             stock: 20,
-    //             price: 1000000,
-    //             description: "earrings description",
-    //             tags: ["new"]
-    //           })
-    //           .set("token", admin.token)
-    //           .then(res => {
-    //             expect(res).to.have.status(400);
-    //             expect(res.body).to.be.an("object");
-    //             expect(res.body).to.have.property("message");
-    //             expect(res.body.message).to.be.an("string");
-    //             expect(res.body.message).equal("Name is required");
-    //             done();
-    //           })
-    //           .catch(err => {
-    //             console.log(JSON.stringify(err, undefined, 2));
-    //           });
-    //       });
-    //       it(`
-    //       INPUT IS MISSING "tags"  (NOT A REQUIRED KEY)
-    //         `, done => {
-    //         //
-    //         chai
-    //           .request(app)
-    //           .post(path)
-    //           .send({
-    //             name: "earrings",
-    //             picture: "picture of earrings",
-    //             stock: 20,
-    //             price: 1000000,
-    //             description: "earrings description"
-    //           })
-    //           .set("token", admin.token)
-    //           .then(res => {
-    //             expect(res).to.have.status(201);
-    //             expect(res.body).to.be.an("object");
-    //             expect(res.body).to.have.property("_id");
-    //             expect(res.body).to.have.property("name");
-    //             expect(res.body).to.have.property("picture");
-    //             expect(res.body).to.have.property("stock");
-    //             expect(res.body).to.have.property("price");
-    //             expect(res.body).to.have.property("description");
-    //             expect(res.body.name).to.be.an("string");
-    //             expect(res.body.picture).to.be.an("string");
-    //             expect(res.body.stock).to.be.an("number");
-    //             expect(res.body.price).to.be.an("number");
-    //             expect(res.body.description).to.be.an("string");
-    //             expect(res.body.name).to.equal("earrings");
-    //             expect(res.body.picture).to.equal("picture of earrings");
-    //             expect(res.body.stock).to.equal(20);
-    //             expect(res.body.price).to.equal(1000000);
-    //             expect(res.body.description).to.equal("earrings description");
-    //             expect(res.body.tags)
-    //               .to.be.an("array")
-    //               .with.lengthOf(0);
-    //             done();
-    //           })
-    //           .catch(err => {
-    //             console.log(JSON.stringify(err, undefined, 2));
-    //           });
-    //       });
-    //     });
-    //     describe(`
-    //   2.B. DATA TYPE VALIDATION IN MODEL
-    //     `, () => {
-    //       it(`
-    //       INPUT WITH WRONG DATA TYPE - SHOW ERROR
-    //         `, done => {
-    //         //
-    //         chai
-    //           .request(app)
-    //           .post(path)
-    //           .send({
-    //             name: 90,
-    //             picture: ["picture of earrings"],
-    //             stock: { stock: 20 },
-    //             price: "1000000",
-    //             description: { descrption: "earrings description" },
-    //             tags: "new"
-    //           })
-    //           .set("token", admin.token)
-    //           .then(res => {
-    //             expect(res).to.have.status(400);
-    //             expect(res.body).to.be.an("object");
-    //             expect(res.body).to.have.property("message");
-    //             expect(res.body.message).to.be.an("string");
-    //             done();
-    //           })
-    //           .catch(err => {
-    //             console.log(JSON.stringify(err, undefined, 2));
-    //           });
-    //       });
-
-    //       it(`
-    //       MIN VALUE VALIDATION
-    //         `, done => {
-    //         //
-    //         chai
-    //           .request(app)
-    //           .post(path)
-    //           .send({
-    //             name: 90,
-    //             picture: "picture of earrings",
-    //             stock: -20,
-    //             price: -1000000,
-    //             description: "earrings description",
-    //             tags: []
-    //           })
-    //           .set("token", admin.token)
-    //           .then(res => {
-    //             expect(res).to.have.status(400);
-    //             expect(res.body).to.be.an("object");
-    //             expect(res.body).to.have.property("message");
-    //             expect(res.body.message).to.be.an("string");
-    //             expect(res.body.message).to.equal(
-    //               "Stock must be equal or greater by 0, Price must be equal or greater by 0"
-    //             );
-    //             done();
-    //           })
-    //           .catch(err => {
-    //             console.log(JSON.stringify(err, undefined, 2));
-    //           });
-    //       });
-    //     });
-
-    //     describe(`
-    //   2.C. NULL VALIDATION IN MODEL
-    //       `, () => {
-    //       it(`
-    //       SOME OF REQUIRED KEY IS NULL - SHOW ERROR
-    //         `, done => {
-    //         //
-    //         chai
-    //           .request(app)
-    //           .post(path)
-    //           .send({
-    //             name: null,
-    //             picture: null,
-    //             stock: 20,
-    //             price: 1000000,
-    //             description: "earrings description"
-    //           })
-    //           .set("token", admin.token)
-    //           .then(res => {
-    //             expect(res).to.have.status(400);
-    //             expect(res).to.have.property("error");
-    //             expect(res.body).to.have.property("message");
-    //             expect(res.body.message).to.be.an("string");
-    //             expect(res.body.message).to.equal(
-    //               "Name is required, Picture is required"
-    //             );
-    //             done();
-    //           })
-    //           .catch(err => {
-    //             console.log(JSON.stringify(err, undefined, 2));
-    //           });
-    //       });
-    //       it(`
-    //       SOME OF NOT REQUIRED KEY IS NULL
-    //         `, done => {
-    //         //
-    //         chai
-    //           .request(app)
-    //           .post(path)
-    //           .send({
-    //             name: "null",
-    //             picture: "null",
-    //             stock: 20,
-    //             price: 1000000,
-    //             description: "null description",
-    //             tags: null
-    //           })
-    //           .set("token", admin.token)
-    //           .then(res => {
-    //             expect(res).to.have.status(201);
-
-    //             done();
-    //           })
-    //           .catch(err => {
-    //             console.log(JSON.stringify(err, undefined, 2));
-    //           });
+    describe(`
+    2. FALSE INPUT`, () => {
+      describe(`
+      2.A. REQUIRED VALIDATION IN MODEL
+        `, () => {
+        it(`
+          THE INPUT IS AN EMPTY OBJECT SHOW NO ERROR
+            `, done => {
+          //
+          chai
+            .request(app)
+            .patch(path + "/" + cartID)
+            .send({})
+            .set("token", user_biasa.token)
+            .then(res => {
+              expect(res).to.have.status(200);
+              done();
+            })
+            .catch(err => {
+              console.log(JSON.stringify(err, undefined, 2));
+            });
+        });
+        it(`
+          THE REQUIRED KEY IS EMPTY SHOW ERROR
+            `, done => {
+          //
+          chai
+            .request(app)
+            .patch(path + "/" + cartID)
+            .send(cart_validation_required)
+            .set("token", user_biasa.token)
+            .then(res => {
+              expect(res).to.have.status(400);
+              expect(res.body).to.be.an("object");
+              expect(res.body).to.have.property("message");
+              expect(res.body.message).to.be.an("string");
+              done();
+            })
+            .catch(err => {
+              console.log(JSON.stringify(err, undefined, 2));
+            });
+        });
+      });
+      describe(`
+      2.B. DATA TYPE VALIDATION IN MODEL
+        `, () => {
+        it(`
+          INPUT WITH WRONG DATA TYPE - SHOW ERROR
+            `, done => {
+          //
+          chai
+            .request(app)
+            .patch(path + "/" + cartID)
+            .send(cart_validation_datatype)
+            .set("token", user_biasa.token)
+            .then(res => {
+              expect(res).to.have.status(400);
+              expect(res.body).to.be.an("object");
+              expect(res.body).to.have.property("message");
+              expect(res.body.message).to.be.an("string");
+              done();
+            })
+            .catch(err => {
+              console.log(JSON.stringify(err, undefined, 2));
+            });
+        });
+        it(`
+        MIN VALUE VALIDATION
+          `, done => {
+          //
+          chai
+            .request(app)
+            .patch(path + "/" + cartID)
+            .send(cart_validation_minValue)
+            .set("token", user_biasa.token)
+            .then(res => {
+              expect(res).to.have.status(400);
+              expect(res.body).to.be.an("object");
+              expect(res.body).to.have.property("message");
+              expect(res.body.message).to.be.an("string");
+              expect(res.body.message).to.equal(
+                "Total must be equal or greater by 0, Ship amount must be equal or greater by 0, Amount must be equal or greater by 0"
+              );
+              done();
+            })
+            .catch(err => {
+              console.log(JSON.stringify(err, undefined, 2));
+            });
+        });
+      });
+    });
   });
 });
