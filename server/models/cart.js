@@ -6,27 +6,25 @@ const CartSchema = new Schema(
     buyer: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: [true, "required"]
+      required: [true, "Input is not complete"]
     },
     status: String,
     products: Array,
     products_amount: {
       type: Number,
-      min: [0, "Value must be equal or greater by 0"]
+      min: [0, "Amount must be equal or greater by 0"]
     },
     ship_address: {
-      type: String,
-      required: [true, "Address is required"]
+      type: String
     },
     ship_city: {
-      type: String,
-      required: [true, "Address is required"]
+      type: String
     },
     ship_amount: Number,
     ship_receipt: String,
     total: {
       type: Number,
-      min: [0, "Value must be equal or greater by 0"]
+      min: [0, "Total must be equal or greater by 0"]
     },
     transfer_receipt: String
   },
@@ -37,7 +35,7 @@ const Cart = mongoose.model("Cart", CartSchema);
 
 Cart.schema.path("status").validate(function(value) {
   if (
-    "checkout-transfered-confirmed-shipped-accepted".indexOf(
+    "checkout-transfer-confirmed-shipped-received".indexOf(
       String(value).toLowerCase()
     ) !== -1
   ) {
@@ -88,7 +86,7 @@ Cart.schema.path("ship_city").validate(function(value) {
 }, "Invalid input");
 
 Cart.schema.path("ship_amount").validate(function(value) {
-  if (typeof value !== "string") {
+  if (typeof value !== "number") {
     return false;
   } else {
     return true;

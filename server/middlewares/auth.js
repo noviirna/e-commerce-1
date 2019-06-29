@@ -1,6 +1,8 @@
 const jwt = require(`jsonwebtoken`);
 const User = require(`../models/user`);
 const Product = require(`../models/product`);
+const Cart = require(`../models/cart`);
+const { ObjectID } = require("mongodb");
 
 module.exports = {
   authentication: function(req, res, next) {
@@ -59,5 +61,35 @@ module.exports = {
           message: `Product didnt exist`
         });
       });
+  },
+  cartAuth: function(req, res, next) {
+    if (req.user.email === "admin@ecommerce.com") {
+      next();
+    } else {
+      Cart.findById(req.params.id)
+        .then(found => {
+          if (found) {
+            if (found.buyer == ObjectID(req.user._id)) {
+              next();
+            } else {
+              next({
+                code: 401,
+                message: `You have no access to do this`
+              });
+            }
+          } else {
+            next({
+              code: 404,
+              message: `Cart did not exist`
+            });
+          }
+        })
+        .catch(err => {
+          next({
+            code: 500,
+            message: `Internal server error`
+          });
+        });
+    }
   }
 };

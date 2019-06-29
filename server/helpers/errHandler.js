@@ -13,7 +13,14 @@ module.exports = function(err, req, res, next) {
       "price: ",
       "stock: ",
       "picture: ",
-      "name: "
+      "name: ",
+      "Cart validation failed: ",
+      "buyer: ",
+      "products_amount: ",
+      "ship_address: ",
+      "ship_city: ",
+      "total: ",
+      "status: "
     ];
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].indexOf(message)) {
@@ -23,8 +30,6 @@ module.exports = function(err, req, res, next) {
     res.status(400).json({ message: message });
   } else if (err.response.status) {
     res.status(err.response.status).json({ message: err.response.statusText });
-  } else if (err.name == "CastError") {
-    res.status(400).json({ message: "Invalid Input Type" });
   } else {
     res.status(500).json({ message: "internal server error" });
   }

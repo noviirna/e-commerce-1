@@ -1,5 +1,6 @@
 const User = require(`../models/user`);
 const Product = require(`../models/product`);
+const Cart = require(`../models/cart`);
 const { generateToken } = require("../helpers/token");
 
 module.exports = {
@@ -20,6 +21,13 @@ module.exports = {
   deleteAllProduct: function() {
     if (process.env.NODE_ENV == "test") {
       Product.deleteMany({})
+        .then(deleted => {})
+        .catch(err => {});
+    }
+  },
+  deleteAllCart: function() {
+    if (process.env.NODE_ENV == "test") {
+      Cart.deleteMany({})
         .then(deleted => {})
         .catch(err => {});
     }
