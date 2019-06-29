@@ -14,7 +14,7 @@ module.exports = {
           if (!found) {
             next({
               code: 401,
-              message: `Invalid access token, you have to login first`
+              message: `You have no access to do this`
             });
           } else {
             next();
@@ -22,8 +22,8 @@ module.exports = {
         })
         .catch(err => {
           next({
-            code: 401,
-            message: `Invalid access token, you have to login first`
+            code: 500,
+            message: `Internal Server Error`
           });
         });
     } catch (err) {
@@ -64,12 +64,29 @@ module.exports = {
   },
   cartAuth: function(req, res, next) {
     if (req.user.email === "admin@ecommerce.com") {
-      next();
-    } else {
       Cart.findById(req.params.id)
         .then(found => {
           if (found) {
-            if (found.buyer == ObjectID(req.user._id)) {
+            next();
+          } else {
+            next({
+              code: 404,
+              message: `Cart didnt exist`
+            });
+          }
+        })
+        .catch(err => {
+          console.log(JSON.stringify(err));
+          next({
+            code: 500,
+            message: `Internal server error`
+          });
+        });
+    } else {
+      Cart.findOne({ _id: req.params.id })
+        .then(found => {
+          if (found) {
+            if (found.buyer == req.user._id) {
               next();
             } else {
               next({

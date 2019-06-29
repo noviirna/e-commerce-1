@@ -5,7 +5,7 @@ class ControllerProduct {
     if (req.body.tags == null) {
       req.body.tags = [];
     }
-    
+
     if (req.body.likedby == null) {
       req.body.likedby = [];
     }
@@ -48,7 +48,8 @@ class ControllerProduct {
   static update(req, res, next) {
     Product.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
-      runValidators : true
+      runValidators: true,
+      useFindAndModify: false
     })
       .then(updated => {
         res.status(200).json(updated);

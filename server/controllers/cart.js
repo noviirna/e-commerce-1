@@ -30,7 +30,7 @@ class ControllerCart {
   }
 
   static user(req, res, next) {
-    Cart.find({ userId: req.user._id })
+    Cart.find({ buyer: req.params.id })
       .then(founds => {
         res.status(200).json(founds);
       })
@@ -48,7 +48,8 @@ class ControllerCart {
   static update(req, res, next) {
     Cart.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
-      runValidators: true
+      runValidators: true,
+      useFindAndModify: false
     })
       .then(updated => {
         res.status(200).json(updated);

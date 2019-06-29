@@ -10,7 +10,6 @@ const path = "/carts";
 
 const {
   deleteAllUser,
-  createMockUser,
   deleteAllProduct,
   deleteAllCart,
   mockLogin
@@ -87,6 +86,19 @@ var cart_validation_datatype = {
   transfer_receipt: ""
 };
 
+var cart_validation_minValue = {
+  buyer: "",
+  status: "checkout",
+  products: [],
+  products_amount: -10,
+  ship_address: "123",
+  ship_city: "",
+  ship_amount: -10,
+  ship_receipt: "",
+  total: -100,
+  transfer_receipt: ""
+};
+
 describe(`
 POST ${path}
 `, () => {
@@ -119,6 +131,7 @@ ACCESS AS REGULAR USER`, () => {
               cart_2.buyer = res.body._id;
               cart_validation_status.buyer = res.body._id;
               cart_validation_datatype.buyer = res.body._id;
+              cart_validation_minValue.buyer = res.body._id;
               user_biasa._picture = res.body.picture;
               user_biasa.token = mockLogin(user_biasa);
               done();
@@ -303,20 +316,23 @@ ACCESS AS REGULAR USER`, () => {
       });
 
       it(`
-        DATATYPE VALIDATION FOR  ALL KEY
+        MIN VALUE VALIDATION FOR  ALL KEY WITH MIN VALUE
         SHOULD RETURN STATUS 400
           `, done => {
         //
         chai
           .request(app)
           .post(path)
-          .send(cart_validation_datatype)
+          .send(cart_validation_minValue)
           .set("token", user_biasa.token)
           .then(res => {
             expect(res).to.have.status(400);
             expect(res.body).to.be.an("object");
             expect(res.body).to.have.property("message");
             expect(res.body.message).to.be.an("string");
+            expect(res.body.message).to.equal(
+              "Amount must be equal or greater by 0, Ship amount must be equal or greater by 0, Total must be equal or greater by 0"
+            );
             done();
           })
           .catch(err => {

@@ -20,7 +20,10 @@ const CartSchema = new Schema(
     ship_city: {
       type: String
     },
-    ship_amount: Number,
+    ship_amount: {
+      type: Number,
+      min: [0, "Ship amount must be equal or greater by 0"]
+    },
     ship_receipt: String,
     total: {
       type: Number,
@@ -32,6 +35,11 @@ const CartSchema = new Schema(
 );
 
 const Cart = mongoose.model("Cart", CartSchema);
+
+CartSchema.pre("save", function(next) {
+  this.total = this.products_amount + this.ship_amount;
+  next();
+});
 
 Cart.schema.path("status").validate(function(value) {
   if (

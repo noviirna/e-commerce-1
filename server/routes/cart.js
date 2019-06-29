@@ -12,9 +12,9 @@ router.post(`/`, controller.create); // create
 
 router.get(`/`, adminAccess, controller.all);
 router.get(`/:id`, cartAuth, controller.detail); // get detail
-router.get(`/user`, cartAuth, controller.user); // get all data for a suer
+router.get(`/user/:id`, controller.user); // get all data for a suer
 
 router.patch(`/:id`, cartAuth, controller.update); // update
-router.delete(`/:id`, adminAccess, controller.delete); // delete
+router.delete(`/:id`, adminAccess, cartAuth, controller.delete); // delete
 
 module.exports = router;

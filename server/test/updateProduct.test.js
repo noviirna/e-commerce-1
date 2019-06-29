@@ -206,12 +206,6 @@ UPDATE PRODUCT`, () => {
               expect(res.body.description).to.be.an("string");
               expect(res.body.tags).to.be.an("array");
 
-              expect(res.body.name).to.equal(updValue_1.name);
-              expect(res.body.picture).to.equal(updValue_1.picture);
-              expect(res.body.stock).to.equal(updValue_1.stock);
-              expect(res.body.price).to.equal(updValue_1.price);
-              expect(res.body.description).to.equal(updValue_1.description);
-              expect(res.body.tags).to.deep.equal(updValue_1.tags);
               done();
             })
             .catch(err => {
@@ -220,7 +214,7 @@ UPDATE PRODUCT`, () => {
         });
 
         it(`
-        AS USER WITH [ INVALID ] TOKEN - SHOW ERROR 401
+        AS AUTHORIZED USER WITH [ INVALID ] TOKEN - SHOW ERROR 401
       `, done => {
           //
           chai
@@ -244,7 +238,7 @@ UPDATE PRODUCT`, () => {
         });
 
         it(`
-        AS USER WITH [ VALID ] TOKEN & VALID DATA - SHOW ERROR 401
+        AS AUTHORIZED USER WITH [ VALID ] TOKEN & VALID DATA - SHOW ERROR 401
       `, done => {
           //
           chai

@@ -20,7 +20,8 @@ module.exports = function(err, req, res, next) {
       "ship_address: ",
       "ship_city: ",
       "total: ",
-      "status: "
+      "status: ",
+      "ship_amount: "
     ];
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].indexOf(message)) {
