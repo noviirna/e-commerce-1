@@ -7,6 +7,7 @@
 
 <script>
 import navbar from "@/components/Navbar.vue";
+import axios from "axios";
 export default {
   name: "app",
   data() {
@@ -25,7 +26,8 @@ export default {
       this.$store.dispatch("GETUSERCARTS", JSON.parse(localStorage.user)._id);
       this.$store.dispatch("GETSHOPPINGCART");
     }
-  }
+  },
+  methods: {}
 };
 </script>
 

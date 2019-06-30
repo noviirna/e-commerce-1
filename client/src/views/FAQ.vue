@@ -38,9 +38,9 @@
     <div class="p-1">
       <h3>Delivery Time</h3>
       <p>
-        Delivered by JNE and TIKI (for some areas) and it will takes 2-4 days
-        delivery time for Domestic shipment. We will update the airway bill
-        number within 5 days after the jewelry shipped.
+        Delivered by JNE and it will takes 2-4 days delivery time for Domestic
+        shipment. We will update the airway bill number within 5 days after the
+        jewelry shipped.
       </p>
     </div>
     <div class="p-1">
@@ -82,11 +82,11 @@
     <div class="p-1">
       <h3>Shipping Policy</h3>
       <p>
-        We aren't responsible for any risks of loss of the merchandise after
-        JNE/TIKI/other shipping company has delivered the packages to the
-        designated address. Customers are responsible if they can't deliver the
-        goods on time due to incomplete address, no recipient at the address or
-        the recipient rejects the goods.
+        We aren't responsible for any risks of loss of the merchandise after JNE
+        company has delivered the packages to the designated address. Customers
+        are responsible if they can't deliver the goods on time due to
+        incomplete address, no recipient at the address or the recipient rejects
+        the goods.
       </p>
     </div>
     <div class="p-1">

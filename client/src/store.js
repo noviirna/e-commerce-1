@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable no-console */
 import Vue from "vue";
 import Vuex from "vuex";
@@ -21,15 +22,19 @@ export default new Vuex.Store({
       if (state.shoppingcart.length == 0) {
         state.shoppingcart.push(data);
       } else {
-        if (state.shoppingcart.indexOf(data) > -1) {
-          for (let i = 0; i < state.shoppingcart.length; i++) {
-            if (state.shoppingcart[i]._id == data._id) {
-              state.shoppingcart[i].amount += data.amount;
-              state.shoppingcart[i].item += data.item;
-            }
+        let index = -1;
+        for (let i = 0; i < state.shoppingcart.length; i++) {
+          if (state.shoppingcart[i]._id == data._id) {
+            index = i;
           }
-        } else {
+        }
+        if (index == -1) {
+          console.log("ga ada di cart store");
           state.shoppingcart.push(data);
+        } else {
+          console.log("ada di cart store");
+          state.shoppingcart[index].item += data.item;
+          state.shoppingcart[index].amount += data.amount;
         }
       }
       localStorage.setItem(
@@ -79,6 +84,10 @@ export default new Vuex.Store({
     },
     SET_SHOPPINGCART(state, data) {
       state.shoppingcart = data;
+      localStorage.setItem(
+        `cart${JSON.parse(localStorage.user)._id}`,
+        `${JSON.stringify(state.shoppingcart)}`
+      );
     }
   },
   actions: {

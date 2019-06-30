@@ -21,23 +21,35 @@
             <router-link class="nav-link" to="/">Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/products">All Products</router-link>
+            <router-link class="nav-link" to="/products"
+              >All Products</router-link
+            >
           </li>
-          <li class="nav-item" v-if="!$store.state.isAdmin && $store.state.isLogin">
-            <a
-              class="nav-link"
-              data-toggle="modal"
-              data-target="#modalCart"
-            >Cart ({{ $store.state.shoppingcart.length }})</a>
+          <li
+            class="nav-item"
+            v-if="!$store.state.isAdmin && $store.state.isLogin"
+          >
+            <a class="nav-link" data-toggle="modal" data-target="#modalCart"
+              >Cart ({{ $store.state.shoppingcart.length }})</a
+            >
           </li>
-          <li class="nav-item" v-if="$store.state.isLogin && !$store.state.isAdmin">
+          <li
+            class="nav-item"
+            v-if="$store.state.isLogin && !$store.state.isAdmin"
+          >
             <router-link
               class="nav-link"
               :to="'/transactions/user/' + $store.state.user._id"
-            >History</router-link>
+              >History</router-link
+            >
           </li>
-          <li class="nav-item" v-if="$store.state.isLogin && $store.state.isAdmin">
-            <router-link class="nav-link" to="/transactions">Transactions</router-link>
+          <li
+            class="nav-item"
+            v-if="$store.state.isLogin && $store.state.isAdmin"
+          >
+            <router-link class="nav-link" to="/transactions"
+              >Transactions</router-link
+            >
           </li>
         </ul>
         <ul class="navbar-nav ml-auto">
@@ -45,10 +57,14 @@
             <a class="nav-link" href @click.prevent="logout">Log Out</a>
           </li>
           <li class="nav-item" v-if="!$store.state.isLogin">
-            <a class="nav-link" data-toggle="modal" data-target="#modalLogin">Log in</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalLogin"
+              >Log in</a
+            >
           </li>
           <li class="nav-item" v-if="!$store.state.isLogin">
-            <a class="nav-link" data-toggle="modal" data-target="#modalRegister">Register</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalRegister"
+              >Register</a
+            >
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/faq">FAQ</router-link>
@@ -101,10 +117,9 @@
                   aria-describedby="emailHelp"
                   placeholder="Enter email"
                 />
-                <small
-                  id="emailHelp"
-                  class="form-text text-muted"
-                >We'll never share your email with anyone else.</small>
+                <small id="emailHelp" class="form-text text-muted"
+                  >We'll never share your email with anyone else.</small
+                >
               </div>
               <div class="form-group">
                 <label for="registerpassword">Password</label>
@@ -124,7 +139,9 @@
               class="btn btn-primary"
               @click="register"
               data-dismiss="modal"
-            >Register</button>
+            >
+              Register
+            </button>
           </div>
         </div>
       </div>
@@ -164,10 +181,9 @@
                   aria-describedby="emailHelp"
                   placeholder="Enter email"
                 />
-                <small
-                  id="emailHelp"
-                  class="form-text text-muted"
-                >We'll never share your email with anyone else.</small>
+                <small id="emailHelp" class="form-text text-muted"
+                  >We'll never share your email with anyone else.</small
+                >
               </div>
               <div class="form-group">
                 <label for="loginpassword">Password</label>
@@ -182,7 +198,14 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" @click="login" data-dismiss="modal">Log in</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click="login"
+              data-dismiss="modal"
+            >
+              Log in
+            </button>
           </div>
         </div>
       </div>
@@ -200,7 +223,12 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Your cart</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -225,6 +253,23 @@
                       <b>{{ toRupiah(item.amount) }}</b>
                     </p>
                   </div>
+                  <div class="col-12 d-flex justify-content-end">
+                    <button
+                      class="btn btn-danger btn-sm"
+                      @click="
+                        $store.state.shoppingcart.splice(
+                          $store.state.shoppingcart.indexOf(item),
+                          1
+                        );
+                        $store.commit(
+                          'SET_SHOPPINGCART',
+                          $store.state.shoppingcart
+                        );
+                      "
+                    >
+                      Delete from cart
+                    </button>
+                  </div>
                 </div>
               </div>
               <div v-if="i == 0" class="col-12">
@@ -244,24 +289,99 @@
                       <b>{{ toRupiah(item.amount) }}</b>
                     </p>
                   </div>
+                  <div class="col-12 d-flex justify-content-end">
+                    <button
+                      class="btn btn-danger btn-sm"
+                      @click="
+                        $store.state.shoppingcart.splice(
+                          $store.state.shoppingcart.indexOf(item),
+                          1
+                        );
+                        $store.commit(
+                          'SET_SHOPPINGCART',
+                          $store.state.shoppingcart
+                        );
+                      "
+                    >
+                      Delete from cart
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
             <hr />
             <div>
-              <p>Total Items : {{ $store.state.shoppingcart.length }}</p>
+              <p>
+                Total Product : {{ $store.state.shoppingcart.length }} product (
+                {{ getTotalItems($store.state.shoppingcart) }} item)
+              </p>
               <p>
                 Total Shopping : IDR
                 {{ toRupiah(getTotalProductAmount($store.state.shoppingcart)) }}
               </p>
-              <p>Shipping Weight :</p>
+              <p class="mb-0">Shipping Weight :{{ getTotalWeight() }}</p>
               <small>one pc of item plus its packaging is weighed 250gr</small>
+              <p class="mt-2">
+                Shipping Amount : IDR {{ toRupiah(ship_amount) }}
+              </p>
+              <p class="mt-2 mb-0">
+                <label for="shipdes"
+                  >Select city and input Address to checkout :</label
+                >
+              </p>
+              <select
+                id="shipdes"
+                @change="getOngkir"
+                class="form-control bg-dark text-white"
+                v-model="destination"
+              >
+                <option
+                  v-for="city in cities"
+                  :key="city.city_id"
+                  :value="city.city_id"
+                  >{{ city.type }}&nbsp;{{ city.city_name }}</option
+                >
+              </select>
+              <p class="mt-2 mb-0">
+                <label for="shipaddress">
+                  Input correct and complete Address with zip code & your phone
+                  number
+                </label>
+              </p>
+              <textarea
+                id="shipadress"
+                class="form-control bg-dark text-white"
+                v-model="address"
+              ></textarea>
+              <hr class="mb-3" />
+              <div v-if="typeof ship_amount == 'number' && ship_amount > 0">
+                Total that you had to paid is :
+                <h5>
+                  IDR
+                  {{
+                    toRupiah(
+                      ship_amount +
+                        getTotalProductAmount($store.state.shoppingcart)
+                    )
+                  }}
+                </h5>
+              </div>
             </div>
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-success" data-dismiss="modal">Checkout</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              v-if="destination != '' && address != ''"
+              @click="checkOut"
+              data-dismiss="modal"
+            >
+              Checkout
+            </button>
           </div>
         </div>
       </div>
@@ -280,8 +400,17 @@ export default {
       registeremail: "",
       registerpassword: "",
       loginemail: "",
-      loginpassword: ""
+      loginpassword: "",
+      cities: [],
+      destination: "",
+      address: "",
+      ship_amount: 0
     };
+  },
+  created() {
+    if (this.$store.state.isLogin && !this.$store.state.isAdmin) {
+      this.getCityName();
+    }
   },
   methods: {
     r_register() {
@@ -361,12 +490,138 @@ export default {
       }
       return total;
     },
-    getTotalItems(products){
+    getTotalItems(products) {
       let total = 0;
       for (let i = 0; i < products.length; i++) {
         total += products[i].item;
       }
       return total;
+    },
+    getTotalWeight() {
+      return `${250 *
+        this.getTotalItems(this.$store.state.shoppingcart)} gr / ${0.25 *
+        this.getTotalItems(this.$store.state.shoppingcart)} kg  `;
+    },
+    getOngkir() {
+      this.ship_amount = "loading...";
+      ax({
+        method: "POST",
+        url: "/getongkir",
+        data: {
+          destination: this.destination,
+          weight: Number(
+            this.getTotalItems(this.$store.state.shoppingcart) * 250
+          )
+        }
+      })
+        .then(({ data }) => {
+          console.log(data);
+          this.ship_amount = data[0].costs[1].cost[0].value;
+        })
+        .catch(err => {
+          swal.fire(
+            "sorry",
+            "failed to calculate shipping cost, please check your internet connection",
+            "error"
+          );
+          console.log(err);
+          console.log("\n\n\n");
+          console.log(JSON.stringify(err, undefined, 2));
+        });
+    },
+    checkOut() {
+      swal
+        .fire({
+          title: "Checkout?",
+          text:
+            "Make sure you have written right address with your phone number on the addres field",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, checkout"
+        })
+        .then(result => {
+          if (result.value) {
+            let weight =
+              this.getTotalItems(this.$store.state.shoppingcart) * 250;
+            let destination = this.destination;
+
+            let ship_city = "";
+            for (let i = 0; i < this.cities.length; i++) {
+              if (this.cities[i].city_id == this.destination) {
+                ship_city =
+                  this.cities[i].type + " " + this.cities[i].city_name;
+              }
+            }
+            let products = JSON.parse(
+              JSON.stringify(this.$store.state.shoppingcart)
+            );
+            let products_amount = this.getTotalProductAmount(
+              this.$store.state.shoppingcart
+            );
+            let buyer = JSON.parse(localStorage.user)._id;
+            let status = "checkout";
+            let ship_address = this.address;
+            let ship_receipt = "";
+            let transfer_receipt = "";
+            let ship_amount = this.ship_amount;
+            let total = products_amount + ship_amount;
+
+            ax({
+              method: "POST",
+              url: "/carts",
+              data: {
+                buyer,
+                status,
+                products,
+                products_amount,
+                ship_address,
+                ship_city,
+                ship_amount,
+                ship_receipt,
+                transfer_receipt,
+                total
+              },
+              headers: {
+                token: localStorage.token
+              }
+            })
+              .then(({ data }) => {
+                swal.fire(
+                  "horray",
+                  "you have checked out your purchase. check your email for further info about payment!",
+                  "success"
+                );
+                this.$store.commit("SET_SHOPPINGCART", []);
+                localStorage.setItem(
+                  `cart${JSON.parse(localStorage.user)._id}`,
+                  []
+                );
+                this.destination = "";
+                this.address = "";
+                this.ship_amount = 0;
+                console.log(JSON.stringify(data, null, 2));
+              })
+              .catch(err => {
+                swal.fire(
+                  "check out failed, please check your connection or try again later"
+                );
+                console.log(err);
+                console.log("\n\n\n");
+                console.log(JSON.stringify(err, undefined, 2));
+              });
+          }
+        });
+    },
+    getCityName() {
+      ax({ method: "GET", url: "/getcities" })
+        .then(({ data }) => {
+          this.cities = data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };

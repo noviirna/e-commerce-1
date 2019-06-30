@@ -3,9 +3,7 @@
     <img :src="product.picture" class="card-img-top" />
     <div class="card-body">
       <h5 class="card-title">
-        <router-link :to="'/products/' + product._id">{{
-          product.name
-        }}</router-link>
+        <router-link :to="'/products/' + product._id">{{ product.name }}</router-link>
       </h5>
       <p class="card-text">{{ product.description }}.</p>
     </div>
@@ -13,12 +11,7 @@
     <div class="card-body">
       <p>IDR {{ rupiah }}</p>
       <p>{{ product.stock }} left</p>
-      <span
-        v-for="tag in product.tags"
-        :key="tag"
-        class="badge badge-primary m-1"
-        >{{ tag }}</span
-      >
+      <span v-for="tag in product.tags" :key="tag" class="badge badge-primary m-1">{{ tag }}</span>
     </div>
 
     <div class="card-footer d-flex">
@@ -26,7 +19,7 @@
       <button
         class="btn btn-dark btn-sm mx-2"
         v-if="!$store.state.isAdmin && $store.state.products.data.length > 0"
-        @click="addToCart(product)"
+        @click="addToCart"
       >
         <i class="fa fa-shopping-cart fa-2x"></i>
       </button>
@@ -73,8 +66,15 @@ export default {
   },
   methods: {
     addToCart() {
-      let index = this.$store.state.shoppingcart.indexOf(this.product);
-      if (index !== -1) {
+      let index = -1;
+      this.product.item = Number(this.item);
+      this.product.amount = Number(this.item) * Number(this.product.price);
+      for (let i = 0; i < this.$store.state.shoppingcart.length; i++) {
+        if (this.$store.state.shoppingcart[i]._id == this.product._id) {
+          index = i;
+        }
+      }
+      if (index > -1) {
         if (
           this.product.item > this.product.stock ||
           this.product.stock <
@@ -82,16 +82,15 @@ export default {
         ) {
           swal.fire("You cant add item more than stock!");
         } else {
-          this.product.item = Number(this.item);
-          this.product.amount = this.item * this.product.price;
+          console.log("ada di cart dan ga nyalahin rule");
           this.$store.commit("ADD_TO_CART", this.product);
         }
       } else {
-        this.product.item = Number(this.item);
-        this.product.amount = this.item * this.product.price;
+        console.log("ga ada di cart dan ga nyalahin rule");
         this.$store.commit("ADD_TO_CART", this.product);
       }
       this.item = 0;
+      this.$store.dispatch("GETSHOPPINGCART");
     }
   }
 };
