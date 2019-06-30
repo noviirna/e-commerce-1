@@ -18,6 +18,7 @@
     </div>
 
     <div class="card-footer d-flex">
+      <input type="number" :max="product.stock" min="0" v-model="item" />
       <button
         class="btn btn-dark btn-sm mx-2"
         v-if="!$store.state.isAdmin && $store.state.products.data.length > 0"
@@ -50,7 +51,9 @@ export default {
   name: "productcard",
   props: ["product"],
   data() {
-    return {};
+    return {
+      item: 0
+    };
   },
   created() {},
   computed: {
@@ -65,8 +68,26 @@ export default {
     }
   },
   methods: {
-    addToCart(product) {
-      this.$store.commit("ADD_TO_CART", product);
+    addToCart() {
+      let index = this.$store.state.shoppingcart.indexOf(this.product);
+      if (index !== -1) {
+        if (
+          this.product.item > this.product.stock ||
+          this.product.stock <
+            this.product.item + this.$store.state.shoppingcart[index].item
+        ) {
+          swal.fire("You cant add item more than stock!");
+        } else {
+          this.product.item = Number(this.item);
+          this.product.amount = this.item * this.product.price;
+          this.$store.commit("ADD_TO_CART", this.product);
+        }
+      } else {
+        this.product.item = Number(this.item);
+        this.product.amount = this.item * this.product.price;
+        this.$store.commit("ADD_TO_CART", this.product);
+      }
+      this.item = 0;
     }
   }
 };

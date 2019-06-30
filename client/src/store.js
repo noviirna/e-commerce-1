@@ -19,20 +19,16 @@ export default new Vuex.Store({
   mutations: {
     ADD_TO_CART(state, data) {
       if (state.shoppingcart.length == 0) {
-        data.amount = data.price;
-        data.item = 1;
         state.shoppingcart.push(data);
       } else {
         if (state.shoppingcart.indexOf(data) > -1) {
           for (let i = 0; i < state.shoppingcart.length; i++) {
             if (state.shoppingcart[i]._id == data._id) {
-              state.shoppingcart[i].amount += data.price;
-              state.shoppingcart[i].item += 1;
+              state.shoppingcart[i].amount += data.amount;
+              state.shoppingcart[i].item += data.item;
             }
           }
         } else {
-          data.amount = data.price;
-          data.item = 1;
           state.shoppingcart.push(data);
         }
       }
