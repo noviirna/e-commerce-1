@@ -21,35 +21,23 @@
             <router-link class="nav-link" to="/">Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/products"
-              >All Products</router-link
-            >
+            <router-link class="nav-link" to="/products">All Products</router-link>
           </li>
-          <li
-            class="nav-item"
-            v-if="!$store.state.isAdmin && $store.state.isLogin"
-          >
-            <a class="nav-link" data-toggle="modal" data-target="#modalCart"
-              >Cart ({{ $store.state.shoppingcart.length }})</a
-            >
+          <li class="nav-item" v-if="!$store.state.isAdmin && $store.state.isLogin">
+            <a
+              class="nav-link"
+              data-toggle="modal"
+              data-target="#modalCart"
+            >Cart ({{ $store.state.shoppingcart.length }})</a>
           </li>
-          <li
-            class="nav-item"
-            v-if="$store.state.isLogin && !$store.state.isAdmin"
-          >
+          <li class="nav-item" v-if="$store.state.isLogin && !$store.state.isAdmin">
             <router-link
               class="nav-link"
               :to="'/transactions/user/' + $store.state.user._id"
-              >History</router-link
-            >
+            >History</router-link>
           </li>
-          <li
-            class="nav-item"
-            v-if="$store.state.isLogin && $store.state.isAdmin"
-          >
-            <router-link class="nav-link" to="/transactions"
-              >Transactions</router-link
-            >
+          <li class="nav-item" v-if="$store.state.isLogin && $store.state.isAdmin">
+            <router-link class="nav-link" to="/transactions">Transactions</router-link>
           </li>
         </ul>
         <ul class="navbar-nav ml-auto">
@@ -57,14 +45,10 @@
             <a class="nav-link" href @click.prevent="logout">Log Out</a>
           </li>
           <li class="nav-item" v-if="!$store.state.isLogin">
-            <a class="nav-link" data-toggle="modal" data-target="#modalLogin"
-              >Log in</a
-            >
+            <a class="nav-link" data-toggle="modal" data-target="#modalLogin">Log in</a>
           </li>
           <li class="nav-item" v-if="!$store.state.isLogin">
-            <a class="nav-link" data-toggle="modal" data-target="#modalRegister"
-              >Register</a
-            >
+            <a class="nav-link" data-toggle="modal" data-target="#modalRegister">Register</a>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/faq">FAQ</router-link>
@@ -117,9 +101,10 @@
                   aria-describedby="emailHelp"
                   placeholder="Enter email"
                 />
-                <small id="emailHelp" class="form-text text-muted"
-                  >We'll never share your email with anyone else.</small
-                >
+                <small
+                  id="emailHelp"
+                  class="form-text text-muted"
+                >We'll never share your email with anyone else.</small>
               </div>
               <div class="form-group">
                 <label for="registerpassword">Password</label>
@@ -139,9 +124,7 @@
               class="btn btn-primary"
               @click="register"
               data-dismiss="modal"
-            >
-              Register
-            </button>
+            >Register</button>
           </div>
         </div>
       </div>
@@ -181,9 +164,10 @@
                   aria-describedby="emailHelp"
                   placeholder="Enter email"
                 />
-                <small id="emailHelp" class="form-text text-muted"
-                  >We'll never share your email with anyone else.</small
-                >
+                <small
+                  id="emailHelp"
+                  class="form-text text-muted"
+                >We'll never share your email with anyone else.</small>
               </div>
               <div class="form-group">
                 <label for="loginpassword">Password</label>
@@ -198,14 +182,7 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-primary"
-              @click="login"
-              data-dismiss="modal"
-            >
-              Log in
-            </button>
+            <button type="button" class="btn btn-primary" @click="login" data-dismiss="modal">Log in</button>
           </div>
         </div>
       </div>
@@ -223,12 +200,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Your cart</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -266,9 +238,7 @@
                           $store.state.shoppingcart
                         );
                       "
-                    >
-                      Delete from cart
-                    </button>
+                    >Delete from cart</button>
                   </div>
                 </div>
               </div>
@@ -302,9 +272,7 @@
                           $store.state.shoppingcart
                         );
                       "
-                    >
-                      Delete from cart
-                    </button>
+                    >Delete from cart</button>
                   </div>
                 </div>
               </div>
@@ -321,13 +289,9 @@
               </p>
               <p class="mb-0">Shipping Weight :{{ getTotalWeight() }}</p>
               <small>one pc of item plus its packaging is weighed 250gr</small>
-              <p class="mt-2">
-                Shipping Amount : IDR {{ toRupiah(ship_amount) }}
-              </p>
+              <p class="mt-2">Shipping Amount : IDR {{ toRupiah(ship_amount) }}</p>
               <p class="mt-2 mb-0">
-                <label for="shipdes"
-                  >Select city and input Address to checkout :</label
-                >
+                <label for="shipdes">Select city and input Address to checkout :</label>
               </p>
               <select
                 id="shipdes"
@@ -339,8 +303,7 @@
                   v-for="city in cities"
                   :key="city.city_id"
                   :value="city.city_id"
-                  >{{ city.type }}&nbsp;{{ city.city_name }}</option
-                >
+                >{{ city.type }}&nbsp;{{ city.city_name }}</option>
               </select>
               <p class="mt-2 mb-0">
                 <label for="shipaddress">
@@ -348,21 +311,17 @@
                   number
                 </label>
               </p>
-              <textarea
-                id="shipadress"
-                class="form-control bg-dark text-white"
-                v-model="address"
-              ></textarea>
+              <textarea id="shipadress" class="form-control bg-dark text-white" v-model="address"></textarea>
               <hr class="mb-3" />
               <div v-if="typeof ship_amount == 'number' && ship_amount > 0">
                 Total that you had to paid is :
                 <h5>
                   IDR
                   {{
-                    toRupiah(
-                      ship_amount +
-                        getTotalProductAmount($store.state.shoppingcart)
-                    )
+                  toRupiah(
+                  ship_amount +
+                  getTotalProductAmount($store.state.shoppingcart)
+                  )
                   }}
                 </h5>
               </div>
@@ -370,18 +329,14 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">
-              Close
-            </button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             <button
               type="button"
               class="btn btn-success"
               v-if="destination != '' && address != ''"
               @click="checkOut"
               data-dismiss="modal"
-            >
-              Checkout
-            </button>
+            >Checkout</button>
           </div>
         </div>
       </div>
@@ -602,6 +557,7 @@ export default {
                 this.address = "";
                 this.ship_amount = 0;
                 console.log(JSON.stringify(data, null, 2));
+                this.$router.push("/");
               })
               .catch(err => {
                 swal.fire(

@@ -3,7 +3,9 @@
     <img :src="product.picture" class="card-img-top" />
     <div class="card-body">
       <h5 class="card-title">
-        <router-link :to="'/products/' + product._id">{{ product.name }}</router-link>
+        <router-link :to="'/products/' + product._id">{{
+          product.name
+        }}</router-link>
       </h5>
       <p class="card-text">{{ product.description }}.</p>
     </div>
@@ -11,7 +13,12 @@
     <div class="card-body">
       <p>IDR {{ rupiah }}</p>
       <p>{{ product.stock }} left</p>
-      <span v-for="tag in product.tags" :key="tag" class="badge badge-primary m-1">{{ tag }}</span>
+      <span
+        v-for="tag in product.tags"
+        :key="tag"
+        class="badge badge-primary m-1"
+        >{{ tag }}</span
+      >
     </div>
 
     <div class="card-footer d-flex">
