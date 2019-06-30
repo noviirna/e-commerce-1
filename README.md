@@ -2,7 +2,7 @@
 
 1. Installation
   - clone this repo
-  - run npm install on the /server & /client folder to install all of the dependencies
+  - run npm install on the `/server` & `/client` folder to install all of the dependencies
   - set some environment variables
   ```
   MONGODB_URL=atlas url for mongo db on cluoud
@@ -18,7 +18,10 @@
   GOOGLE_PASS=valid password email for nodemailer
   RAJAONGKIR=API key untuk raja ongkir
   ```
-
+   - run `npm run start:dev` on the terminal to start server on development environment
+   - run `npm run start:test` on the terminal  to run the test script
+   - run the client by open the client folder then run `npm run serve` on the terminal to run development server on port 8080
+   
 2. REST API
 - GET /
   - REQUEST
