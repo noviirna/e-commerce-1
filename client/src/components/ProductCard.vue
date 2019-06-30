@@ -2,7 +2,11 @@
   <div class="card" v-if="product.stock > 0 || $store.state.isAdmin">
     <img :src="product.picture" class="card-img-top" />
     <div class="card-body">
-      <h5 class="card-title">{{ product.name }}</h5>
+      <h5 class="card-title">
+        <router-link :to="'/products/' + product._id">{{
+          product.name
+        }}</router-link>
+      </h5>
       <p class="card-text">{{ product.description }}.</p>
     </div>
 

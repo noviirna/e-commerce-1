@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div v-if="$route.params.id">
+      <router-view @edit="edit" @delete="deleteProduct"></router-view>
+    </div>
     <div v-if="!$route.params.id" class="row d-flex justify-content-center">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-0 m-0">
         <div class="col-12 text-right mb-3">
@@ -8,8 +11,7 @@
             v-if="$store.state.isAdmin && showDashboard == false"
             @click="showDashboard = true"
             href="#form"
-            >Show Dashboard</a
-          >
+          >Show Dashboard</a>
         </div>
         <div class="col-12 mt-3 p-3">
           <div class="col-12 text-center my-3">
@@ -22,11 +24,7 @@
                 :key="pro._id"
                 class="col-lg-3 col-sm-12 col-md-5 my-3"
               >
-                <productcard
-                  @edit="edit"
-                  @delete="deleteProduct"
-                  :product="pro"
-                ></productcard>
+                <productcard @edit="edit" @delete="deleteProduct" :product="pro"></productcard>
               </div>
             </div>
           </div>
@@ -37,17 +35,12 @@
         v-if="$store.state.isAdmin && showDashboard"
       >
         <div class="row d-flex justify-content-between" id="form">
-          <div
-            class="col-12 bg-dark d-flex justify-content-between align-items-start"
-          >
+          <div class="col-12 bg-dark d-flex justify-content-between align-items-start">
             <div class="col-6 p-2 m-2">
               <p class="text-white">You are now logged in as admin</p>
             </div>
             <div class="col-6 d-flex justify-content-end">
-              <button
-                class="btn btn-danger btn-sm"
-                @click="showDashboard = false"
-              >
+              <button class="btn btn-danger btn-sm" @click="showDashboard = false">
                 <i class="fa fa-times"></i>
               </button>
             </div>
@@ -55,54 +48,27 @@
           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 bg-dark px-5 pb-5">
             <h3 v-if="!selectedID" class="text-white">INPUT NEW PRODUCTS</h3>
             <h3 v-if="selectedID" class="text-white">Update Product</h3>
-            <small v-if="selectedID"
-              >Update product with ID : {{ selectedID }}</small
-            >
+            <small v-if="selectedID">Update product with ID : {{ selectedID }}</small>
             <form @submit.prevent="inputNewProduct" v-if="!selectedID">
               <div class="form-group">
                 <label for="productname">Product name</label>
-                <input
-                  id="productname"
-                  v-model="name"
-                  type="text"
-                  class="form-control"
-                />
+                <input id="productname" v-model="name" type="text" class="form-control" />
               </div>
               <div class="form-group">
                 <label for="productdesc">Product description</label>
-                <textarea
-                  id="productdesc"
-                  v-model="description"
-                  class="form-control"
-                  row="10"
-                ></textarea>
+                <textarea id="productdesc" v-model="description" class="form-control" row="10"></textarea>
               </div>
               <div class="form-group">
                 <label for="productstock">Product stock</label>
-                <input
-                  id="productstock"
-                  v-model="stock"
-                  type="number"
-                  class="form-control"
-                />
+                <input id="productstock" v-model="stock" type="number" class="form-control" />
               </div>
               <div class="form-group">
                 <label for="productprice">Product price</label>
-                <input
-                  id="productprice"
-                  v-model="price"
-                  type="number"
-                  class="form-control"
-                />
+                <input id="productprice" v-model="price" type="number" class="form-control" />
               </div>
               <div class="form-group">
                 <label for="inputpicture">Product picture</label>
-                <input
-                  id="inputpicture"
-                  type="file"
-                  @change="selectPicture"
-                  class="form-control"
-                />
+                <input id="inputpicture" type="file" @change="selectPicture" class="form-control" />
               </div>
               <div class="form-group">
                 <label for="productprice">Product categories</label>
@@ -121,63 +87,33 @@
                     v-for="tag in tags"
                     :key="tag"
                     @click.prevent="removeTag(tag)"
-                    >{{ tag }}</a
-                  >
+                  >{{ tag }}</a>
                 </div>
               </div>
               <div class="form-group">
-                <input
-                  type="submit"
-                  class="btn btn-secondary btn-block"
-                  value="Input new Products"
-                />
+                <input type="submit" class="btn btn-secondary btn-block" value="Input new Products" />
               </div>
             </form>
             <form @submit.prevent="updateProduct" v-if="selectedID">
               <div class="form-group">
                 <label for="productname">Product name</label>
-                <input
-                  id="productname"
-                  v-model="name"
-                  type="text"
-                  class="form-control"
-                />
+                <input id="productname" v-model="name" type="text" class="form-control" />
               </div>
               <div class="form-group">
                 <label for="productdesc">Product description</label>
-                <textarea
-                  id="productdesc"
-                  v-model="description"
-                  class="form-control"
-                  row="10"
-                ></textarea>
+                <textarea id="productdesc" v-model="description" class="form-control" row="10"></textarea>
               </div>
               <div class="form-group">
                 <label for="productstock">Product stock</label>
-                <input
-                  id="productstock"
-                  v-model="stock"
-                  type="number"
-                  class="form-control"
-                />
+                <input id="productstock" v-model="stock" type="number" class="form-control" />
               </div>
               <div class="form-group">
                 <label for="productprice">Product price</label>
-                <input
-                  id="productprice"
-                  v-model="price"
-                  type="number"
-                  class="form-control"
-                />
+                <input id="productprice" v-model="price" type="number" class="form-control" />
               </div>
               <div class="form-group">
                 <label for="updatepicture">Product picture</label>
-                <input
-                  id="updatepicture"
-                  type="file"
-                  @change="selectPicture"
-                  class="form-control"
-                />
+                <input id="updatepicture" type="file" @change="selectPicture" class="form-control" />
               </div>
               <div class="form-group">
                 <label for="productprice">Product categories</label>
@@ -196,16 +132,11 @@
                     v-for="tag in tags"
                     :key="tag"
                     @click.prevent="removeTag(tag)"
-                    >{{ tag }}</a
-                  >
+                  >{{ tag }}</a>
                 </div>
               </div>
               <div class="form-group">
-                <input
-                  type="submit"
-                  class="btn btn-secondary btn-block"
-                  value="Update"
-                />
+                <input type="submit" class="btn btn-secondary btn-block" value="Update" />
               </div>
             </form>
             <button v-if="selectedID" class="btn btn-warning" @click="r_edit">
@@ -228,14 +159,9 @@
             <div class="p-3">
               <h5 class="text-white">Stock summary</h5>
               <hr />
-              <div
-                v-for="(product, i) in $store.state.products.data"
-                :key="product._id"
-              >
+              <div v-for="(product, i) in $store.state.products.data" :key="product._id">
                 <div>
-                  <p>
-                    {{ i + 1 }}. {{ product.name }} ({{ product.stock }}) items
-                  </p>
+                  <p>{{ i + 1 }}. {{ product.name }} ({{ product.stock }}) items</p>
                 </div>
                 <hr />
               </div>
@@ -243,9 +169,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div v-if="$route.params.id">
-      <router-view></router-view>
     </div>
   </div>
 </template>
