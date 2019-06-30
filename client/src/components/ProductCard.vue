@@ -3,9 +3,9 @@
     <img :src="product.picture" class="card-img-top" />
     <div class="card-body">
       <h5 class="card-title">
-        <router-link :to="'/products/' + product._id">{{
-          product.name
-        }}</router-link>
+        <router-link :to="'/products/' + product._id">
+          {{ product.name }}
+        </router-link>
       </h5>
       <p class="card-text">{{ product.description }}.</p>
     </div>
@@ -73,31 +73,33 @@ export default {
   },
   methods: {
     addToCart() {
-      let index = -1;
-      this.product.item = Number(this.item);
-      this.product.amount = Number(this.item) * Number(this.product.price);
-      for (let i = 0; i < this.$store.state.shoppingcart.length; i++) {
-        if (this.$store.state.shoppingcart[i]._id == this.product._id) {
-          index = i;
+      if (this.item > 0) {
+        let index = -1;
+        this.product.item = Number(this.item);
+        this.product.amount = Number(this.item) * Number(this.product.price);
+        for (let i = 0; i < this.$store.state.shoppingcart.length; i++) {
+          if (this.$store.state.shoppingcart[i]._id == this.product._id) {
+            index = i;
+          }
         }
-      }
-      if (index > -1) {
-        if (
-          this.product.item > this.product.stock ||
-          this.product.stock <
-            this.product.item + this.$store.state.shoppingcart[index].item
-        ) {
-          swal.fire("You cant add item more than stock!");
+        if (index > -1) {
+          if (
+            this.product.item > this.product.stock ||
+            this.product.stock <
+              this.product.item + this.$store.state.shoppingcart[index].item
+          ) {
+            swal.fire("You cant add item more than stock!");
+          } else {
+            console.log("ada di cart dan ga nyalahin rule");
+            this.$store.commit("ADD_TO_CART", this.product);
+          }
         } else {
-          console.log("ada di cart dan ga nyalahin rule");
+          console.log("ga ada di cart dan ga nyalahin rule");
           this.$store.commit("ADD_TO_CART", this.product);
         }
-      } else {
-        console.log("ga ada di cart dan ga nyalahin rule");
-        this.$store.commit("ADD_TO_CART", this.product);
+        this.item = 0;
+        this.$store.dispatch("GETSHOPPINGCART");
       }
-      this.item = 0;
-      this.$store.dispatch("GETSHOPPINGCART");
     }
   }
 };

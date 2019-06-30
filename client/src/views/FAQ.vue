@@ -32,15 +32,19 @@
           responsibility with any reason if you canceled your order after paid
           your purchase.
         </li>
-        <li>We don’t acceptable to refund your money in any case.</li>
+        <li>
+          We don’t acceptable to refund your money if you cancel your order.
+          Refund will be happen if something unexpected happen in regards with
+          your purchase
+        </li>
       </ol>
     </div>
     <div class="p-1">
       <h3>Delivery Time</h3>
       <p>
-        Delivered by JNE and it will takes 2-4 days delivery time for Domestic
-        shipment. We will update the airway bill number within 5 days after the
-        jewelry shipped.
+        Delivered by JNE REG and it will takes 2-4 days delivery time for
+        Domestic shipment. We will update the airway bill number within 5 days
+        after the jewelry shipped.
       </p>
     </div>
     <div class="p-1">

@@ -11,7 +11,7 @@ router.use(authentication); // check token & get req.user
 
 router.get(`/:id`, controller.detail); // get detail
 router.post(`/`, adminAccess, controller.create); // create
-router.patch(`/:id`, adminAccess, productAuth, controller.update); // update
+router.patch(`/:id`, productAuth, controller.update); // update
 router.delete(`/:id`, productAuth, adminAccess, controller.delete); // delete
 
 module.exports = router;

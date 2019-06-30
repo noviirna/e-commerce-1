@@ -43,7 +43,7 @@ CartSchema.pre("save", function(next) {
 
 Cart.schema.path("status").validate(function(value) {
   if (
-    "checkout-transfer-confirmed-shipped-received".indexOf(
+    "checkout-transfer-confirmed-shipped-received-cancel".indexOf(
       String(value).toLowerCase()
     ) !== -1
   ) {

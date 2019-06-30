@@ -430,7 +430,7 @@ export default {
       }, 300);
     },
     toRupiah(value) {
-      let arr = value
+      let arr = Number(value)
         .toFixed(2)
         .replace(/\d(?=(\d{3})+\.)/g, "$&.")
         .split(".");
@@ -543,6 +543,7 @@ export default {
               }
             })
               .then(({ data }) => {
+                this.updateProductscheckout(data.products);
                 swal.fire(
                   "horray",
                   "you have checked out your purchase. check your email for further info about payment!",
@@ -569,6 +570,48 @@ export default {
               });
           }
         });
+    },
+    async updateProductscheckout(products) {
+      for (let i = 0; i < products.length; i++) {
+        await this.update_one_stock(products[i])
+          .then(data => {})
+          .catch(err => {
+            console.log(err);
+            console.log(err.response.data);
+            swal.fire("sorry", err.response.data.message, "error");
+          });
+      }
+      setTimeout(() => {
+        this.$store.dispatch("GETALLPRODUCTS");
+      }, 3000);
+    },
+    update_one_stock(product) {
+      let index = -1;
+      for (let i = 0; i < this.$store.state.products.data.length; i++) {
+        if (this.$store.state.products.data[i]._id == product._id) {
+          index = i;
+        }
+      }
+      let stock = this.$store.state.products.data[index].stock - product.item;
+      let updValue = {
+        stock
+      };
+      return new Promise((resolve, reject) => {
+        ax({
+          method: "PATCH",
+          url: "/products/" + product._id,
+          data: updValue,
+          headers: {
+            token: localStorage.token
+          }
+        })
+          .then(({ data }) => {
+            return resolve(data);
+          })
+          .catch(err => {
+            return reject(err);
+          });
+      });
     },
     getCityName() {
       ax({ method: "GET", url: "/getcities" })

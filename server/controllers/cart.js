@@ -79,6 +79,7 @@ class ControllerCart {
 
   static all(req, res, next) {
     Cart.find({})
+    .populate("buyer")
       .then(founds => {
         res.status(200).json(founds);
       })
