@@ -10,7 +10,7 @@ class ControllerAPI {
       }
     })
       .then(({ data }) => {
-        res.status(201).json(data.rajaongkir.results);
+        res.status(200).json(data.rajaongkir.results);
       })
       .catch(next);
   }
@@ -30,7 +30,7 @@ class ControllerAPI {
       }
     })
       .then(({ data }) => {
-        res.status(201).json(data.rajaongkir.results);
+        res.status(200).json(data.rajaongkir.results);
       })
       .catch(next);
   }

@@ -6,7 +6,11 @@
         <h1>{{ user.name }}'s TRANSACTIONS</h1>
       </center>
       <hr />
-      <div v-for="transaction in $store.state.carts.data" :key="transaction._id" class="col-12">
+      <div
+        v-for="transaction in $store.state.carts.data"
+        :key="transaction._id"
+        class="col-12"
+      >
         <div class="row">
           <h5>Transaction ID :</h5>
           <p>{{ transaction._id }} at {{ new Date(transaction.createdAt) }}</p>
@@ -26,7 +30,11 @@
             <h5>Detail Purchase :</h5>
           </div>
           <div class="col-12">
-            <div v-for="item in transaction.products" :key="item._id" class="col-12">
+            <div
+              v-for="item in transaction.products"
+              :key="item._id"
+              class="col-12"
+            >
               <div class="col-12 mx-0 px-0">
                 <div class="row">
                   <div class="col-12 mx-0"></div>
@@ -68,7 +76,10 @@
           <h5>Transfer Receipt :</h5>
           <a :href="transaction.transfer_receipt">Screenshot Receipt Link</a>
         </div>
-        <div v-if="transaction.transfer_receipt && transaction.status == 'cancel'" class="row">
+        <div
+          v-if="transaction.transfer_receipt && transaction.status == 'cancel'"
+          class="row"
+        >
           <h5 class="text-danger">Attention :</h5>
           <p>
             Your order had been cancelled due to some reasons, please check your
@@ -90,7 +101,9 @@
               v-if="transaction.status == 'checkout'"
               class="btn btn-info mx-1"
               @click="sentTransferReceipt(transaction._id)"
-            >SENT TRANSFER RECEIPT</button>
+            >
+              SENT TRANSFER RECEIPT
+            </button>
             <button
               v-if="
                 transaction.status !== 'checkout' &&
@@ -99,19 +112,27 @@
               "
               class="btn btn-success mx-1"
               @click="received(transaction._id)"
-            >CONFIRM RECEIVED</button>
+            >
+              CONFIRM RECEIVED
+            </button>
           </div>
         </div>
         <hr />
       </div>
     </div>
     <!--  -->
-    <div v-if="$store.state.isAdmin && !$route.params.id && !$route.params.user">
+    <div
+      v-if="$store.state.isAdmin && !$route.params.id && !$route.params.user"
+    >
       <center class="my-3">
         <h1>ALL OF USER TRANSACTIONS</h1>
       </center>
       <hr />
-      <div v-for="transaction in $store.state.allcarts.data" :key="transaction._id" class="col-12">
+      <div
+        v-for="transaction in $store.state.allcarts.data"
+        :key="transaction._id"
+        class="col-12"
+      >
         <div class="row">
           <h5>Transaction ID :</h5>
           <p>{{ transaction._id }} at {{ new Date(transaction.createdAt) }}</p>
@@ -131,7 +152,11 @@
             <h5>Detail Purchase :</h5>
           </div>
           <div class="col-12">
-            <div v-for="item in transaction.products" :key="item._id" class="col-12">
+            <div
+              v-for="item in transaction.products"
+              :key="item._id"
+              class="col-12"
+            >
               <div class="col-12 mx-0 px-0">
                 <div class="row">
                   <div class="col-12 mx-0"></div>
@@ -176,7 +201,9 @@
                 transaction.status !== 'checkout' &&
                 transaction.status !== 'transfer'
             "
-          >Shipping Receipt :</h5>
+          >
+            Shipping Receipt :
+          </h5>
           <p>{{ transaction.ship_receipt }}</p>
         </div>
         <div class="row d-flex align-content-center">
@@ -199,7 +226,9 @@
               "
               class="btn btn-info mx-1"
               @click="confirmShipping(transaction)"
-            >CONFIRM SHIPPING</button>
+            >
+              CONFIRM SHIPPING
+            </button>
             <button
               class="btn btn-danger"
               v-if="
@@ -208,7 +237,9 @@
                   transaction.status !== 'received'
               "
               @click="cancelOrder(transaction)"
-            >CANCEL TRANSACTION</button>
+            >
+              CANCEL TRANSACTION
+            </button>
           </div>
         </div>
         <hr />
