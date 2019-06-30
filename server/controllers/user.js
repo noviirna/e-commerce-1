@@ -26,6 +26,7 @@ class ControllerUser {
     ) {
       next({ code: 400, message: `Complete the log in form` });
     } else {
+      console.log(req.body)
       User.findOne({ email: req.body.email })
         .then(found => {
           if (found) {
@@ -35,7 +36,7 @@ class ControllerUser {
               let token = generateToken(user);
               res.status(200).json({ token, user });
             } else {
-              next({ code: 400, message: `Password / Email is wrong` });
+              next({ code: 400, message: `Password / Email is wrong =` });
             }
           } else {
             next({ code: 400, message: `Password / Email is wrong` });

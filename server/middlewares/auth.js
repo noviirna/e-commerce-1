@@ -27,6 +27,7 @@ module.exports = {
           });
         });
     } catch (err) {
+      console.log(JSON.stringify(err, null, 2));
       next({
         code: 401,
         message: `Invalid access token, you have to login first`

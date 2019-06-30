@@ -39,11 +39,14 @@
           >
             <router-link
               class="nav-link"
-              :to="'/transactions/' + $store.state.user._id"
+              :to="'/transactions/user/' + $store.state.user._id"
               >History</router-link
             >
           </li>
-          <li class="nav-item" v-if="$store.state.isAdmin">
+          <li
+            class="nav-item"
+            v-if="$store.state.isLogin && $store.state.isAdmin"
+          >
             <router-link class="nav-link" to="/transactions"
               >Transactions</router-link
             >

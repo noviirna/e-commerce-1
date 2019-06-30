@@ -1,7 +1,14 @@
 <template>
   <div>
-    <div>THIS IS ROUTER VIEW</div>
-    <div v-if="$store.state.isAdmin">THIS IS LIST OF ALL TRANSACTIONS</div>
+    <router-view v-if="$route.params.id" />
+    <div v-if="$route.params.user && !$route.params.id">
+      LIST OF USER {{ $route.params.user }}'s TRANSACTIONS
+    </div>
+    <div
+      v-if="$store.state.isAdmin && !$route.params.id && !$route.params.user"
+    >
+      THIS IS LIST OF ALL TRANSACTIONS
+    </div>
   </div>
 </template>
 

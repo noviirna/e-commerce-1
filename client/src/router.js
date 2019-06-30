@@ -2,9 +2,9 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "@/views/Home.vue";
 import Products from "@/views/Products.vue";
-import Transactions from "@/views/Transactions.vue";
-import TransactionDetail from "@/views/Transactions.vue";
 import ProductDetail from "@/components/ProductDetail.vue";
+import Transactions from "@/views/Transactions.vue";
+import TransactionDetail from "@/components/TransactionDetail.vue";
 
 Vue.use(Router);
 
@@ -36,6 +36,17 @@ export default new Router({
     {
       path: "/transactions",
       name: "transactions",
+      component: Transactions,
+      children: [
+        {
+          path: ":id",
+          component: TransactionDetail
+        }
+      ]
+    },
+    {
+      path: "/transactions/user/:user",
+      name: "transactionsuser",
       component: Transactions,
       children: [
         {

@@ -17,6 +17,13 @@ export default {
   },
   created() {
     this.$store.dispatch("CHECKLOGIN");
+    this.$store.dispatch("GETALLPRODUCTS");
+    if (this.$store.state.isLogin && this.$store.state.isAdmin) {
+      this.$store.dispatch("GETALLCARTS");
+    }
+    if (this.$store.state.isLogin && !this.$store.state.isAdmin) {
+      this.$store.dispatch("GETUSERCARTS", JSON.parse(localStorage.user)._id);
+    }
   }
 };
 </script>

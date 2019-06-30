@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import Vue from "vue";
 import Vuex from "vuex";
-import ax from "./axios";
+import { ax, swal } from "@/axios.js";
 
 Vue.use(Vuex);
 
@@ -10,12 +10,16 @@ export default new Vuex.Store({
     isLogin: false,
     isAdmin: false,
     products: [],
+    allcarts: [],
     carts: [],
     user: {},
     shoppingcart: [],
     serverURL: "http://localhost:3000"
   },
   mutations: {
+    ADD_TO_CART(state, data) {
+      state.shoppingcart.push(data);
+    },
     SET_ISLOGIN(state, data) {
       state.isLogin = data;
     },
@@ -30,6 +34,17 @@ export default new Vuex.Store({
     },
     SET_USERCARTS(state, data) {
       state.carts = data;
+    },
+    SET_ALLCARTS(state, data) {
+      state.allcarts = data;
+    },
+    PUSH_NEWPRODUCT(state, data) {
+      let arr = [];
+      for (let i = 0; i < state.products.length; i++) {
+        arr.push(state.products[i]);
+      }
+      arr.push(data);
+      state.products = arr;
     }
   },
   actions: {
@@ -57,10 +72,28 @@ export default new Vuex.Store({
         commit("SET_ISADMIN", false);
       }
     },
+    GETALLCARTS({ commit }) {
+      ax({
+        method: "GET",
+        url: "/carts",
+        headers: {
+          token: localStorage.token
+        }
+      })
+        .then(carts => {
+          commit("SET_ALLCARTS", carts);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     GETUSERCARTS({ commit }, id) {
       ax({
         method: "GET",
-        url: "/carts/user/" + id
+        url: "/carts/user/" + id,
+        headers: {
+          token: localStorage.token
+        }
       })
         .then(carts => {
           commit("SET_USERCARTS", carts);

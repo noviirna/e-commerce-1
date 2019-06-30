@@ -28,7 +28,8 @@ module.exports = function(err, req, res, next) {
         message = message.replace(arr[i], "");
       }
     }
-    res.status(400).json({ message: message });
+    console.log(message)
+    res.status(400).json({ message });
   } else if (err.response.status) {
     res.status(err.response.status).json({ message: err.response.statusText });
   } else {
