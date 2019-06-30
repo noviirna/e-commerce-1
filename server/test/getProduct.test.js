@@ -30,7 +30,7 @@ var mock_product = {
   stock: 20,
   price: 100000,
   description: "product description",
-  tags: [],
+  tags: []
 };
 
 describe(`
@@ -52,7 +52,8 @@ GET ${path}
   describe(`
 AUTHENTICATION TEST
 `, () => {
-    before(done => {
+    before(function(done) {
+      this.timeout(10000);
       chai
         .request(app)
         .post("/users/register")
@@ -98,13 +99,11 @@ AUTHENTICATION TEST
         .get(path)
         .set("token", "token palsu :)")
         .then(res => {
-          expect(res).to.have.status(401);
-          expect(res.body).to.be.an("object");
-          expect(res.body).to.have.property("message");
-          expect(res.body.message).to.be.an("string");
-          expect(res.body.message).to.equal(
-            "Invalid access token, you have to login first"
-          );
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an("array");
+          expect(res.body)
+            .to.be.an("array")
+            .with.lengthOf(0);
 
           done();
         })

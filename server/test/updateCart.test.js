@@ -130,7 +130,8 @@ PATCH ${path}
 1.A. AUTHENTICATION AUTHORIZATION TEST
 `, () => {
       //
-      before(done => {
+      before(function(done) {
+        this.timeout(20000)
         chai
           .request(app)
           .post("/users/register")
@@ -163,7 +164,8 @@ PATCH ${path}
       describe(`
         ACCESS AS ADMIN
         `, () => {
-        before(done => {
+        before(function(done) {
+          this.timeout(10000)
           chai
             .request(app)
             .post("/carts")
@@ -234,7 +236,8 @@ PATCH ${path}
       });
       //
       describe(`
-        ACCESS AS AUTHORIZED USER`, () => {
+        ACCESS AS AUTHORIZED USER`, function() {
+          this.timeout(10000)
         it(`
               [ VALID ]  TOKEN WITH CORRECT INPUT PARAMETERS
           `, done => {

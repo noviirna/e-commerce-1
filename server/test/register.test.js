@@ -57,11 +57,12 @@ const user_no_email_password = {
 describe(`
 POST ${path}
 `, () => {
-  before(() => {
+  before(done => {
     deleteAllUser();
     console.log(
       "\n==================================\nTEST REGISTER START\n==================================\n"
     );
+    done();
   });
 
   describe(`
@@ -74,7 +75,8 @@ POST ${path}
     Should return
     - response.status : 201
     - response.body : 
-      { _id : String, name : String, email : String, password : String }`, done => {
+      { _id : String, name : String, email : String, password : String }`, function(done) {
+        this.timeout(5000)
         //
         chai
           .request(app)

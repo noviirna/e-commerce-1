@@ -50,7 +50,7 @@ var mock_product_1 = {
 
 describe(`
 POST ${path}
-`, () => {
+`, function(){
   before(() => {
     console.log("START ========================> POST /products\n\n");
   });
@@ -59,6 +59,7 @@ POST ${path}
     deleteAllUser();
     deleteAllProduct();
   });
+  this.timeout(10000)
 
   describe(`
 1. CORRECT INPUT`, () => {

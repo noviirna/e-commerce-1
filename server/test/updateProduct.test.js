@@ -102,9 +102,11 @@ var updValue_7 = {
 
 describe(`
 UPDATE ${path}
-`, () => {
-  before(() => {
+`, function() {
+  this.timeout(30000)
+  before(done => {
     console.log("START ========================> UPDATE /products\n\n");
+    done();
   });
   after(() => {
     console.log("\n\nEND ========================> UPDATE /products");
@@ -113,8 +115,10 @@ UPDATE ${path}
   });
 
   describe(`
-UPDATE PRODUCT`, () => {
-    before(done => {
+UPDATE PRODUCT`, function() {
+    this.timeout(10000);
+    before(function(done) {
+      this.timeout(10000);
       chai
         .request(app)
         .post("/users/register")
@@ -238,7 +242,7 @@ UPDATE PRODUCT`, () => {
         });
 
         it(`
-        AS AUTHORIZED USER WITH [ VALID ] TOKEN & VALID DATA - SHOW ERROR 401
+        AS AUTHORIZED USER WITH [ VALID ] TOKEN & VALID DATA
       `, done => {
           //
           chai
@@ -247,13 +251,20 @@ UPDATE PRODUCT`, () => {
             .set("token", user_biasa.token)
             .send(mock_product)
             .then(res => {
-              expect(res).to.have.status(401);
-              expect(res.body).to.be.an("object");
-              expect(res.body).to.have.property("message");
-              expect(res.body.message).to.be.an("string");
-              expect(res.body.message).to.equal(
-                "You have no access to do this"
-              );
+              expect(res).to.have.status(200);
+              expect(res.body).to.have.property("_id");
+              expect(res.body).to.have.property("name");
+              expect(res.body).to.have.property("picture");
+              expect(res.body).to.have.property("stock");
+              expect(res.body).to.have.property("price");
+              expect(res.body).to.have.property("description");
+
+              expect(res.body.name).to.be.an("string");
+              expect(res.body.picture).to.be.an("string");
+              expect(res.body.stock).to.be.an("number");
+              expect(res.body.price).to.be.an("number");
+              expect(res.body.description).to.be.an("string");
+              expect(res.body.tags).to.be.an("array");
               done();
             })
             .catch(err => {

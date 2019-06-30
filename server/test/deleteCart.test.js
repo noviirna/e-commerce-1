@@ -46,7 +46,7 @@ var cart_1 = {
 
 describe(`
 DELETE ${path}
-`, () => {
+`, function() {
   before(() => {
     console.log("START ========================> DELETE /carts\n\n");
   });
@@ -55,6 +55,8 @@ DELETE ${path}
     deleteAllUser();
     deleteAllCart();
   });
+
+  this.timeout(10000)
 
   describe(`
 DELETE CART AS ADMIN`, () => {

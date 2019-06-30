@@ -40,7 +40,8 @@ var mock_product = {
 
 describe(`
 DELETE ${path}
-`, () => {
+`, function(){
+  this.timeout(10000)
   before(() => {
     console.log("START ========================> DELETE /products\n\n");
   });

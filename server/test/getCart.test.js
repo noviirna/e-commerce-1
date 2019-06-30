@@ -55,7 +55,8 @@ var cart_1 = {
 describe(`
 GET ${path}
 `, () => {
-  before(done => {
+  before(function(done){
+    this.timeout(7000)
     deleteAllProduct();
     deleteAllUser();
     deleteAllCart();
@@ -83,8 +84,10 @@ GET ${path}
 
   describe(`
 AUTHENTICATION TEST
-`, () => {
-    before(done => {
+`, function(){
+  this.timeout(10000)
+    before(function(done){
+      this.timeout(7000)
       chai
         .request(app)
         .post("/users/register")

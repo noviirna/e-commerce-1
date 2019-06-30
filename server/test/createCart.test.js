@@ -101,7 +101,7 @@ var cart_validation_minValue = {
 
 describe(`
 POST ${path}
-`, () => {
+`, function() {
   before(() => {
     console.log("START ========================> POST /carts\n\n");
   });
@@ -113,14 +113,16 @@ POST ${path}
   });
 
   describe(`
-1. CORRECT INPUT`, () => {
+1. CORRECT INPUT`, function(){
+  this.timeout(10000)
     describe(`
    
 1.A. AUTHENTICATION AUTHORIZATION TEST
 `, () => {
       describe(`
 ACCESS AS REGULAR USER`, () => {
-        before(done => {
+        before(function(done ){
+          this.timeout(5000)
           chai
             .request(app)
             .post("/users/register")
