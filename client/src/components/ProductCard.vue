@@ -22,7 +22,13 @@
     </div>
 
     <div class="card-footer d-flex">
-      <input type="number" :max="product.stock" min="0" v-model="item" />
+      <input
+        v-if="!$store.state.isAdmin"
+        type="number"
+        :max="product.stock"
+        min="0"
+        v-model="item"
+      />
       <button
         class="btn btn-dark btn-sm mx-2"
         v-if="!$store.state.isAdmin && $store.state.products.data.length > 0"

@@ -375,6 +375,7 @@ export default {
               .then(({ data }) => {
                 this.$store.dispatch("GETALLCARTS");
                 this.updateProductsCancel(transaction.products);
+                swal.fire("order had been cancelled");
               })
               .catch(err => {
                 console.log(err);

@@ -433,7 +433,8 @@ export default {
           this.r_register();
         })
         .catch(err => {
-          console.log(JSON.stringify(err.response.data, undefined, 2));
+          console.log(err);
+          console.log(JSON.stringify(err, undefined, 2));
           swal.fire("sorry", err.response.data.message, "error");
         });
     },

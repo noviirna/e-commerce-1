@@ -1,6 +1,6 @@
 import axios from "axios";
 import swal from "sweetalert2";
-const serverURL = "http://localhost:3000";
+const serverURL = "http://35.240.223.244";
 
 var ax = axios.create({
   baseURL: serverURL
