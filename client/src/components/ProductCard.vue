@@ -1,32 +1,47 @@
 <template>
-  <div class="card" v-if="product.stock > 0">
+  <div class="card" v-if="product.stock > 0 || $store.state.isAdmin">
     <img :src="product.picture" class="card-img-top" />
     <div class="card-body">
-      <h5 class="card-title">{{product.name}}</h5>
-      <p class="card-text">{{product.description}}.</p>
+      <h5 class="card-title">{{ product.name }}</h5>
+      <p class="card-text">{{ product.description }}.</p>
     </div>
 
     <div class="card-body">
-      <p>IDR {{rupiah}}</p>
-      <p>{{product.stock}} left</p>
-      <span v-for="tag in product.tags" :key="tag" class="badge badge-primary m-1">{{tag}}</span>
+      <p>IDR {{ rupiah }}</p>
+      <p>{{ product.stock }} left</p>
+      <span
+        v-for="tag in product.tags"
+        :key="tag"
+        class="badge badge-primary m-1"
+        >{{ tag }}</span
+      >
     </div>
 
     <div class="card-footer d-flex">
       <button class="btn btn-dark btn-sm mx-2" v-if="!$store.state.isAdmin">
         <i class="fa fa-shopping-cart fa-2x"></i>
       </button>
-      <button class="btn btn-dark btn-sm mx-2" v-if="$store.state.isAdmin">
+      <button
+        class="btn btn-dark btn-sm mx-2"
+        v-if="$store.state.isAdmin"
+        @click="$emit('delete', product)"
+      >
         <i class="fa fa-trash fa-2x"></i>
       </button>
-      <button class="btn btn-dark btn-sm mx-2" v-if="$store.state.isAdmin">
+      <a
+        class="btn btn-dark btn-sm mx-2"
+        v-if="$store.state.isAdmin"
+        @click="$emit('edit', { ...product, showDashboard: true })"
+        href="#form"
+      >
         <i class="fa fa-pencil fa-2x"></i>
-      </button>
+      </a>
     </div>
   </div>
 </template>
 
 <script>
+import { ax, swal } from "@/axios.js";
 export default {
   name: "productcard",
   props: ["product"],
@@ -41,7 +56,8 @@ export default {
       let rp = arr.join(".");
       return rp;
     }
-  }
+  },
+  methods: {}
 };
 </script>
 

@@ -40,11 +40,20 @@ export default new Vuex.Store({
     },
     PUSH_NEWPRODUCT(state, data) {
       let arr = [];
-      for (let i = 0; i < state.products.length; i++) {
-        arr.push(state.products[i]);
+      for (let i = 0; i < state.products.data.length; i++) {
+        arr.push(state.products.data[i]);
       }
       arr.push(data);
-      state.products = arr;
+      state.products.data = arr;
+    },
+    POP_PRODUCT(state, data) {
+      let arr = [];
+      for (let i = 0; i < state.products.data.length; i++) {
+        if (state.products.data[i]._id !== data._id) {
+          arr.push(state.products.data[i]);
+        }
+      }
+      state.products.data = arr;
     }
   },
   actions: {
