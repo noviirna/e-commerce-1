@@ -21,35 +21,23 @@
             <router-link class="nav-link" to="/">Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/products"
-              >All Products</router-link
-            >
+            <router-link class="nav-link" to="/products">All Products</router-link>
           </li>
-          <li
-            class="nav-item"
-            v-if="!$store.state.isAdmin && $store.state.isLogin"
-          >
-            <a class="nav-link" data-toggle="modal" data-target="#modalCart"
-              >Cart ({{ $store.state.shoppingcart.length }})</a
-            >
+          <li class="nav-item" v-if="!$store.state.isAdmin && $store.state.isLogin">
+            <a
+              class="nav-link"
+              data-toggle="modal"
+              data-target="#modalCart"
+            >Cart ({{ $store.state.shoppingcart.length }})</a>
           </li>
-          <li
-            class="nav-item"
-            v-if="$store.state.isLogin && !$store.state.isAdmin"
-          >
+          <li class="nav-item" v-if="$store.state.isLogin && !$store.state.isAdmin">
             <router-link
               class="nav-link"
               :to="'/transactions/user/' + $store.state.user._id"
-              >History</router-link
-            >
+            >History</router-link>
           </li>
-          <li
-            class="nav-item"
-            v-if="$store.state.isLogin && $store.state.isAdmin"
-          >
-            <router-link class="nav-link" to="/transactions"
-              >Transactions</router-link
-            >
+          <li class="nav-item" v-if="$store.state.isLogin && $store.state.isAdmin">
+            <router-link class="nav-link" to="/transactions">Transactions</router-link>
           </li>
         </ul>
         <ul class="navbar-nav ml-auto">
@@ -57,14 +45,10 @@
             <a class="nav-link" href @click.prevent="logout">Log Out</a>
           </li>
           <li class="nav-item" v-if="!$store.state.isLogin">
-            <a class="nav-link" data-toggle="modal" data-target="#modalLogin"
-              >Log in</a
-            >
+            <a class="nav-link" data-toggle="modal" data-target="#modalLogin">Log in</a>
           </li>
           <li class="nav-item" v-if="!$store.state.isLogin">
-            <a class="nav-link" data-toggle="modal" data-target="#modalRegister"
-              >Register</a
-            >
+            <a class="nav-link" data-toggle="modal" data-target="#modalRegister">Register</a>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/faq">FAQ</router-link>
@@ -117,9 +101,10 @@
                   aria-describedby="emailHelp"
                   placeholder="Enter email"
                 />
-                <small id="emailHelp" class="form-text text-muted"
-                  >We'll never share your email with anyone else.</small
-                >
+                <small
+                  id="emailHelp"
+                  class="form-text text-muted"
+                >We'll never share your email with anyone else.</small>
               </div>
               <div class="form-group">
                 <label for="registerpassword">Password</label>
@@ -139,9 +124,7 @@
               class="btn btn-primary"
               @click="register"
               data-dismiss="modal"
-            >
-              Register
-            </button>
+            >Register</button>
           </div>
         </div>
       </div>
@@ -181,9 +164,10 @@
                   aria-describedby="emailHelp"
                   placeholder="Enter email"
                 />
-                <small id="emailHelp" class="form-text text-muted"
-                  >We'll never share your email with anyone else.</small
-                >
+                <small
+                  id="emailHelp"
+                  class="form-text text-muted"
+                >We'll never share your email with anyone else.</small>
               </div>
               <div class="form-group">
                 <label for="loginpassword">Password</label>
@@ -198,19 +182,90 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-primary"
-              @click="login"
-              data-dismiss="modal"
-            >
-              Log in
-            </button>
+            <button type="button" class="btn btn-primary" @click="login" data-dismiss="modal">Log in</button>
           </div>
         </div>
       </div>
     </div>
     <!-- modal cart -->
+    <div
+      class="modal fade"
+      id="modalCart"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="modalCart"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Your cart</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div v-for="(item, i) in $store.state.shoppingcart" :key="item._id">
+              <div v-if="i !== 0" class="col-12">
+                <div class="row">
+                  <div class="col-12">
+                    <hr />
+                  </div>
+                  <div class="col-3">
+                    <img :src="item.picture" class="img-fluid" />
+                  </div>
+                  <div class="col-9">
+                    <h5>
+                      {{ item.name }}
+                      <small>- {{ item.item }} item</small>
+                    </h5>
+                    <p>Price per item IDR {{ toRupiah(item.price) }}</p>
+                    <p>
+                      Total item : IDR
+                      <b>{{ toRupiah(item.amount) }}</b>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div v-if="i == 0" class="col-12">
+                <div class="row">
+                  <div class="col-12"></div>
+                  <div class="col-3">
+                    <img :src="item.picture" class="img-fluid" />
+                  </div>
+                  <div class="col-9">
+                    <h5>
+                      {{ item.name }}
+                      <small>- {{ item.item }} item</small>
+                    </h5>
+                    <p>Price per item IDR {{ toRupiah(item.price) }}</p>
+                    <p>
+                      Total item : IDR
+                      <b>{{ toRupiah(item.amount) }}</b>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div>
+              <p>Total Items : {{ $store.state.shoppingcart.length }}</p>
+              <p>
+                Total Shopping : IDR
+                {{ toRupiah(getTotalProductAmount($store.state.shoppingcart)) }}
+              </p>
+              <p>Shipping Weight :</p>
+              <small>one pc of item plus its packaging is weighed 250gr</small>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal">Checkout</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -289,6 +344,29 @@ export default {
       setTimeout(() => {
         this.$store.dispatch("CHECKLOGIN");
       }, 300);
+    },
+    toRupiah(value) {
+      let arr = value
+        .toFixed(2)
+        .replace(/\d(?=(\d{3})+\.)/g, "$&.")
+        .split(".");
+      arr.pop();
+      let rp = arr.join(".");
+      return rp;
+    },
+    getTotalProductAmount(products) {
+      let total = 0;
+      for (let i = 0; i < products.length; i++) {
+        total += products[i].amount;
+      }
+      return total;
+    },
+    getTotalItems(products){
+      let total = 0;
+      for (let i = 0; i < products.length; i++) {
+        total += products[i].item;
+      }
+      return total;
     }
   }
 };

@@ -8,9 +8,7 @@
       <div class="card-body">
         <h5 class="card-title">
           <router-link :to="'/products/' + product._id">
-            {{
-            product.name
-            }}
+            {{ product.name }}
           </router-link>
         </h5>
         <p class="card-text">{{ product.description }}.</p>
@@ -19,7 +17,12 @@
       <div class="card-body">
         <p>IDR {{ rupiah }}</p>
         <p>{{ product.stock }} left</p>
-        <span v-for="tag in product.tags" :key="tag" class="badge badge-primary m-1">{{ tag }}</span>
+        <span
+          v-for="tag in product.tags"
+          :key="tag"
+          class="badge badge-primary m-1"
+          >{{ tag }}</span
+        >
       </div>
 
       <div class="card-footer d-flex">
@@ -82,8 +85,8 @@ export default {
           arr.pop();
           let rp = arr.join(".");
           this.rupiah = rp;
-        }, 1000);
-      }, 1000);
+        }, 500);
+      }, 500);
     }, 1000);
   },
   methods: {
