@@ -18,7 +18,11 @@
     </div>
 
     <div class="card-footer d-flex">
-      <button class="btn btn-dark btn-sm mx-2" v-if="!$store.state.isAdmin">
+      <button
+        class="btn btn-dark btn-sm mx-2"
+        v-if="!$store.state.isAdmin && $store.state.products.data.length > 0"
+        @click="addToCart(product)"
+      >
         <i class="fa fa-shopping-cart fa-2x"></i>
       </button>
       <button
@@ -45,6 +49,9 @@ import { ax, swal } from "@/axios.js";
 export default {
   name: "productcard",
   props: ["product"],
+  data() {
+    return {};
+  },
   created() {},
   computed: {
     rupiah() {
@@ -57,7 +64,11 @@ export default {
       return rp;
     }
   },
-  methods: {}
+  methods: {
+    addToCart(product) {
+      this.$store.commit("ADD_TO_CART", product);
+    }
+  }
 };
 </script>
 

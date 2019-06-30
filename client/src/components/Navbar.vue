@@ -30,7 +30,7 @@
             v-if="!$store.state.isAdmin && $store.state.isLogin"
           >
             <a class="nav-link" data-toggle="modal" data-target="#modalCart"
-              >Cart</a
+              >Cart ({{ $store.state.shoppingcart.length }})</a
             >
           </li>
           <li

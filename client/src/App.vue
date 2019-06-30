@@ -23,6 +23,7 @@ export default {
     }
     if (this.$store.state.isLogin && !this.$store.state.isAdmin) {
       this.$store.dispatch("GETUSERCARTS", JSON.parse(localStorage.user)._id);
+      this.$store.dispatch("GETSHOPPINGCART");
     }
   }
 };

@@ -18,7 +18,33 @@ export default new Vuex.Store({
   },
   mutations: {
     ADD_TO_CART(state, data) {
-      state.shoppingcart.push(data);
+      if (state.shoppingcart.length == 0) {
+        data.amount = data.price;
+        data.item = 1;
+        state.shoppingcart.push(data);
+      } else {
+        if (state.shoppingcart.indexOf(data) > -1) {
+          for (let i = 0; i < state.shoppingcart.length; i++) {
+            if (state.shoppingcart[i]._id == data._id) {
+              state.shoppingcart[i].amount += data.price;
+              state.shoppingcart[i].item += 1;
+            }
+          }
+        } else {
+          data.amount = data.price;
+          data.item = 1;
+          state.shoppingcart.push(data);
+        }
+      }
+      localStorage.setItem(
+        `cart${JSON.parse(localStorage.user)._id}`,
+        `${JSON.stringify(state.shoppingcart)}`
+      );
+      swal.fire(
+        "horray",
+        `Added "${data.name}" to your shopping cart!`,
+        "success"
+      );
     },
     SET_ISLOGIN(state, data) {
       state.isLogin = data;
@@ -54,9 +80,21 @@ export default new Vuex.Store({
         }
       }
       state.products.data = arr;
+    },
+    SET_SHOPPINGCART(state, data) {
+      state.shoppingcart = data;
     }
   },
   actions: {
+    GETSHOPPINGCART({ commit }) {
+      let data = [];
+      if (localStorage.getItem(`cart${JSON.parse(localStorage.user)._id}`)) {
+        data = JSON.parse(
+          localStorage.getItem(`cart${JSON.parse(localStorage.user)._id}`)
+        );
+      }
+      commit("SET_SHOPPINGCART", data);
+    },
     GETALLPRODUCTS({ commit }) {
       ax({
         method: "get",
@@ -90,6 +128,7 @@ export default new Vuex.Store({
         }
       })
         .then(carts => {
+          console.log(carts);
           commit("SET_ALLCARTS", carts);
         })
         .catch(err => {

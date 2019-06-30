@@ -7,12 +7,42 @@ const {
 const { generateToken } = require(`../helpers/token`);
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(process.env.CLIENT_ID);
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: `${process.env.GOOGLE_EMAIL}`,
+    pass: `${process.env.GOOGLE_PASS}`
+  }
+});
 
 class ControllerUser {
   static register(req, res, next) {
     User.create(req.body)
       .then(created => {
-        res.status(201).json(created);
+        const emailCont = `
+        <h3>Thanks for joining lux jewelries ${created.name}!</h3>
+        <p>
+        Happy shopping! <b>"${created.name}"</b>
+        </p>
+        <p>If you had any issues in regards of your purchase, you can contact us to this email!</p>
+        `;
+
+        const mailOptions = {
+          from: "info@luxjewelries.com", // sender address
+          to: `${created.email}`, // list of receivers
+          subject: "Thanks for joining lux jewelries!", // Subject line
+          html: emailCont
+        };
+
+        transporter
+          .sendMail(mailOptions)
+          .then(sent => {
+            console.log(sent);
+            res.status(200).json(created);
+          })
+          .catch(next);
       })
       .catch(next);
   }
@@ -26,7 +56,7 @@ class ControllerUser {
     ) {
       next({ code: 400, message: `Complete the log in form` });
     } else {
-      console.log(req.body)
+      console.log(req.body);
       User.findOne({ email: req.body.email })
         .then(found => {
           if (found) {

@@ -1,10 +1,50 @@
 const Cart = require(`../models/cart`);
 
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: `${process.env.GOOGLE_EMAIL}`,
+    pass: `${process.env.GOOGLE_PASS}`
+  }
+});
+
 class ControllerCart {
   static create(req, res, next) {
     Cart.create(req.body)
       .then(created => {
-        res.status(201).json(created);
+        const emailCont = `
+        <h3>Thanks for you for shopping ${req.user.name}!</h3>
+        <p>
+        Below are the details of the transaction that you need to pay <b>"${
+          req.user.name
+        }"</b>
+        </p>
+        <p>
+        Total that you have to paid : ${created.total}.  
+        Products purchased : ${created.products.length} item. 
+        You can paid your purchase through transfer to our Bank account via Mandiri 1234567890 (Lux Jewelries) or BCA 1234567890 (Lux Jewelries)
+        We will wait for 3 x 24 h for you to paid your purchase, if you not paid the purchase throughout that time, we consider you have cancelled the purchase
+        For details of your purchase, go to your account and look at transaction history.
+        </p>
+        <p>Thank you for choosing us!</p>
+        <p>If you had any issues in regards of your purchase, you can contact us to this email!</p>
+        `;
+
+        const mailOptions = {
+          from: "info@luxjewelries.com", // sender address
+          to: `${req.user.email}`, // list of receivers
+          subject: `Your transaction today at Lux Jewelries ${req.user.name}!`, // Subject line
+          html: emailCont
+        };
+
+        transporter
+          .sendMail(mailOptions)
+          .then(sent => {
+            res.status(201).json(created);
+          })
+          .catch(next);
       })
       .catch(next);
   }

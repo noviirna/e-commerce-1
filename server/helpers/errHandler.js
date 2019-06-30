@@ -1,4 +1,6 @@
 module.exports = function(err, req, res, next) {
+  console.log(err);
+  console.log(JSON.stringify(err, null, 2));
   if (err.code) {
     res.status(err.code).json({ message: err.message });
   } else if (err.name === "ValidationError" || err.name == "CastError") {
@@ -28,7 +30,7 @@ module.exports = function(err, req, res, next) {
         message = message.replace(arr[i], "");
       }
     }
-    console.log(message)
+    console.log(message);
     res.status(400).json({ message });
   } else if (err.response.status) {
     res.status(err.response.status).json({ message: err.response.statusText });
