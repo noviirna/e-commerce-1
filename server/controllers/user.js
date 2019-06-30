@@ -1,7 +1,5 @@
 const User = require(`../models/user`);
-const {
-  comparePassword,
-} = require(`../helpers/password`);
+const { comparePassword } = require(`../helpers/password`);
 const { generateToken } = require(`../helpers/token`);
 const nodemailer = require("nodemailer");
 
@@ -32,12 +30,9 @@ class ControllerUser {
           html: emailCont
         };
 
-        return transporter
-          .sendMail(mailOptions)
-          .then(sent => {
-            res.status(201).json(created);
-          })
-          
+        return transporter.sendMail(mailOptions).then(sent => {
+          res.status(201).json(created);
+        });
       })
       .catch(next);
   }

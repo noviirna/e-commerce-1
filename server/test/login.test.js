@@ -46,7 +46,7 @@ const user_no_password = {
 };
 const user_no_email_password = {};
 
-describe(`
+describe.only(`
 POST ${path}
 `, () => {
   before(done => {
