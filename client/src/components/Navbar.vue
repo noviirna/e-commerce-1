@@ -408,10 +408,9 @@ export default {
     };
   },
   created() {
-    if (this.$store.state.isLogin && !this.$store.state.isAdmin) {
-      this.getCityName();
-    }
+    this.getCityName();
   },
+
   methods: {
     r_register() {
       this.registeremail = "";
